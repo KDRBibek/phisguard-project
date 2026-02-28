@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PHISGUARD Inbox</title>
+  <meta charset="utf-8" />
+</head>
+<body>
+  <h2>PHISGUARD - Inbox</h2>
+
+  <div style="border:1px solid #ccc; padding:12px; margin-bottom:16px;">
+    <h3 style="margin-top:0;">Inbox Tips</h3>
+    <ul>
+      <li>Check the <strong>sender</strong> and the <strong>subject</strong> for unusual wording.</li>
+      <li>Be cautious with emails that create <strong>urgency</strong> (e.g., “Act now”, “Account locked”).</li>
+      <li>Watch for requests for <strong>passwords, OTP codes, bank details</strong>, or personal info.</li>
+      <li>Look for <strong>spelling/grammar</strong> issues or strange formatting.</li>
+      <li>If unsure, <strong>open the email first</strong> and inspect it before clicking.</li>
+      <li>Use <strong>Report as phishing</strong> if it seems suspicious.</li>
+    </ul>
+    <p style="margin:0;"><em>This is a safe simulation—take your time and learn.</em></p>
+  </div>
+
+  <ul>
+    {% for email in emails %}
+      <li style="margin-bottom:8px;">
+        <a href="{{ url_for('view_email', email_id=email.id) }}">
+          <strong>{{ email.sender }}</strong> — {{ email.subject }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

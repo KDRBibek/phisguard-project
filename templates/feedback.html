@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PHISGUARD Feedback</title>
+  <meta charset="utf-8" />
+</head>
+<body>
+  <a href="{{ url_for('inbox') }}">← Back to Inbox</a>
+
+  <h2>Feedback</h2>
+
+  {% if correct %}
+    <p style="color:green;"><strong>Good choice!</strong></p>
+  {% else %}
+    <p style="color:red;"><strong>Be careful!</strong></p>
+  {% endif %}
+
+  <p>{{ message }}</p>
+
+  <hr>
+
+  <div style="border:1px solid #ccc; padding:12px;">
+    <h3 style="margin-top:0;">Tip</h3>
+    <p style="margin-top:0;">{{ tip }}</p>
+
+    <h4>Remember</h4>
+    <ul>
+      <li>Never enter credentials from a link in an unexpected email.</li>
+      <li>Verify requests using the official website or trusted contact method.</li>
+      <li>Urgency + link + personal info request = common phishing pattern.</li>
+    </ul>
+  </div>
+</body>
+</html>
