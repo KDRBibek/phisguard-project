@@ -10,7 +10,7 @@ export default function Simulation({emails = [], smsMessages = [], feedbacks = [
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div className="p-8 bg-gradient-to-r from-indigo-600 to-indigo-400 text-white">
+        <div className="p-8 bg-gradient-to-r from-slate-950 to-slate-800 text-white">
           <h2 className="text-3xl font-bold">Welcome to PhisGuard</h2>
           <p className="mt-2 opacity-90">An interactive simulation to improve phishing detection and response.</p>
         </div>

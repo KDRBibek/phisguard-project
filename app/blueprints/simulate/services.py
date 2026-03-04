@@ -1,7 +1,7 @@
 import csv
 import os
 import random
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import text
 from app.extensions import db
 from app.models import Email, UserAction, CampaignTarget, SmsAction
@@ -35,7 +35,13 @@ def update_campaign_target(email_id, action):
     if not ct:
         return
     ct.status = action
-    ct.last_action_at = datetime.utcnow()
+    ct.last_action_at = _utcnow_like(ct.last_action_at)
+
+
+def _utcnow_like(value):
+    if value is None or value.tzinfo is None:
+        return datetime.now(timezone.utc).replace(tzinfo=None)
+    return datetime.now(timezone.utc)
 
 
 def compute_email_time_to_action_seconds(email_id, user_id):
@@ -44,7 +50,7 @@ def compute_email_time_to_action_seconds(email_id, user_id):
     last_open = UserAction.query.filter_by(email_id=email_id, user_id=user_id, action='opened').order_by(UserAction.created_at.desc()).first()
     if not last_open or not last_open.created_at:
         return None
-    return max(0, (datetime.utcnow() - last_open.created_at).total_seconds())
+    return max(0, (_utcnow_like(last_open.created_at) - last_open.created_at).total_seconds())
 
 
 def compute_sms_time_to_action_seconds(message_id, user_id):
@@ -53,7 +59,7 @@ def compute_sms_time_to_action_seconds(message_id, user_id):
     last_open = SmsAction.query.filter_by(message_id=message_id, user_id=user_id, action='opened').order_by(SmsAction.created_at.desc()).first()
     if not last_open or not last_open.created_at:
         return None
-    return max(0, (datetime.utcnow() - last_open.created_at).total_seconds())
+    return max(0, (_utcnow_like(last_open.created_at) - last_open.created_at).total_seconds())
 
 
 def load_sms_messages():
@@ -84,6 +90,33 @@ def load_sms_messages():
             'link_text': 'Reset account',
             'link_url': 'https://account-example.invalid/reset',
             'feedback': 'Red flags: tries to rush a reset after an OTP. Do not click; open the app directly and check recent activity.',
+        },
+        {
+            'id': 4,
+            'sender': 'University Library',
+            'body': 'Reminder: your borrowed item "Network Security Essentials" is due on Friday. Renew or return through the official library portal.',
+            'is_phishing': False,
+            'link_text': 'Open library portal',
+            'link_url': 'https://library.greenwich.ac.uk/account',
+            'feedback': 'Legitimate context: routine due-date reminder and known service. Still prefer using your saved portal bookmark.',
+        },
+        {
+            'id': 5,
+            'sender': 'Campus IT Service',
+            'body': 'Planned maintenance tonight 11:00 PM-1:00 AM may affect Wi-Fi login. Service status is available on the official IT status page.',
+            'is_phishing': False,
+            'link_text': 'View service status',
+            'link_url': 'https://status.it.greenwich.ac.uk',
+            'feedback': 'Legitimate message: informational maintenance notice with no request for passwords or urgent action.',
+        },
+        {
+            'id': 6,
+            'sender': 'Courier Updates',
+            'body': 'Your parcel is out for delivery today between 2:00 PM and 4:00 PM. Track updates in the official courier app.',
+            'is_phishing': False,
+            'link_text': 'Track delivery',
+            'link_url': 'https://www.dhl.com/global-en/home/tracking.html',
+            'feedback': 'Legitimate delivery update with no credential request. Verify directly in the courier app if uncertain.',
         },
     ]
 
@@ -167,6 +200,69 @@ def seed_emails():
             link_text="View remittance update",
             link_url="https://secure.vendor-example.invalid/remittance/INV-10488",
             feedback="Red flags: bank detail change request, due-today pressure, and external link. Verify out-of-band using known vendor contacts."
+        ),
+        Email(
+            sender="University Registrar <registrar@greenwich.ac.uk>",
+            subject="Semester enrollment confirmation and timetable availability",
+            body=(
+                "Hello Bibek,\n"
+                "Your enrollment for Semester 2 has been confirmed successfully.\n"
+                "Your updated timetable is now available in the official student portal.\n\n"
+                "View timetable: https://portal.gre.ac.uk/student/timetable\n\n"
+                "Regards,\n"
+                "Registry Services"
+            ),
+            is_phishing=False,
+            difficulty=infer_difficulty(
+                "Semester enrollment confirmation and timetable availability",
+                "Your enrollment for Semester 2 has been confirmed successfully.",
+                False
+            ),
+            link_text="View timetable",
+            link_url="https://portal.gre.ac.uk/student/timetable",
+            feedback="Legitimate message: expected academic update from an official university domain with no request for sensitive credentials."
+        ),
+        Email(
+            sender="Course Team <noreply@learn.gre.ac.uk>",
+            subject="New COMP1682 workshop materials uploaded",
+            body=(
+                "Hi,\n"
+                "New workshop slides and lab instructions for COMP1682 are now available on the learning platform.\n"
+                "Please review before the next class.\n\n"
+                "Open module page: https://learn.gre.ac.uk/course/comp1682\n\n"
+                "Thanks,\n"
+                "COMP1682 Teaching Team"
+            ),
+            is_phishing=False,
+            difficulty=infer_difficulty(
+                "New COMP1682 workshop materials uploaded",
+                "New workshop slides and lab instructions are now available.",
+                False
+            ),
+            link_text="Open module page",
+            link_url="https://learn.gre.ac.uk/course/comp1682",
+            feedback="Legitimate learning-platform notice: routine course communication and no pressure for immediate sensitive action."
+        ),
+        Email(
+            sender="Finance Office <finance@greenwich.ac.uk>",
+            subject="Tuition payment receipt for February",
+            body=(
+                "Hello,\n"
+                "This is confirmation that your tuition installment payment dated 14 February has been received.\n"
+                "You can view or download your receipt from the official finance portal.\n\n"
+                "Finance portal: https://portal.gre.ac.uk/finance/receipts\n\n"
+                "Kind regards,\n"
+                "University Finance Office"
+            ),
+            is_phishing=False,
+            difficulty=infer_difficulty(
+                "Tuition payment receipt for February",
+                "This is confirmation that your tuition installment payment has been received.",
+                False
+            ),
+            link_text="Open finance portal",
+            link_url="https://portal.gre.ac.uk/finance/receipts",
+            feedback="Legitimate finance confirmation: informational receipt notice, no threat language, and no request to submit credentials by email."
         ),
     ]
     db.session.add_all(emails)

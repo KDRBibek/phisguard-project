@@ -18,7 +18,7 @@ export default function Admin(){
     return (
       <div className="p-6">
         <h2 className="text-xl font-semibold">Admin</h2>
-        <p className="mt-4">You must <a className="text-indigo-600" href="/login">log in as admin</a> to access admin features.</p>
+        <p className="mt-4">You must <a className="text-slate-900" href="/login">log in as admin</a> to access admin features.</p>
       </div>
     )
   }
@@ -126,7 +126,7 @@ export default function Admin(){
   const accuracy = reportStats.total ? (reportStats.correct/reportStats.total*100) : 0
 
   const barData = [
-    {label:'Opened', value: actionCounts.opened || 0, color: '#6366f1'},
+    {label:'Opened', value: actionCounts.opened || 0, color: '#1f2937'},
     {label:'Clicked', value: actionCounts.clicked || 0, color: '#ef4444'},
     {label:'Reported', value: actionCounts.reported || 0, color: '#10b981'},
   ]
@@ -176,7 +176,7 @@ export default function Admin(){
           <div className="mt-4 space-y-4">
             {timeline.length ? timeline.map(item=> (
               <div key={item.id} className="flex gap-3">
-                <div className="mt-1 w-2 h-2 rounded-full" style={{backgroundColor: item.action==='clicked' ? '#ef4444' : item.action==='reported' ? '#10b981' : '#6366f1'}} />
+                <div className="mt-1 w-2 h-2 rounded-full" style={{backgroundColor: item.action==='clicked' ? '#ef4444' : item.action==='reported' ? '#10b981' : '#1f2937'}} />
                 <div>
                   <div className="text-sm font-medium">{item.user_id || 'unknown'} {item.action} email {item.email_id}</div>
                   <div className="text-xs text-slate-500">{new Date(item.created_at).toLocaleString()}</div>
@@ -212,7 +212,7 @@ export default function Admin(){
             <input className="w-full p-3 border rounded-lg" placeholder="Feedback" value={templateForm.feedback} onChange={e=>setTemplateForm({...templateForm,feedback:e.target.value})} />
           </div>
           <div>
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow">Create template</button>
+            <button className="px-4 py-2 bg-slate-900 text-white rounded-lg shadow">Create template</button>
           </div>
         </form>
         <div className="mt-6 overflow-auto">
@@ -237,7 +237,7 @@ export default function Admin(){
           </div>
           <textarea className="w-full p-3 border rounded-lg" placeholder="Bulk add (one per line: Name, Email, Department)" value={targetForm.bulk} onChange={e=>setTargetForm({...targetForm,bulk:e.target.value})} />
           <div>
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow">Add targets</button>
+            <button className="px-4 py-2 bg-slate-900 text-white rounded-lg shadow">Add targets</button>
           </div>
         </form>
         <div className="mt-6 overflow-auto">
@@ -274,7 +274,7 @@ export default function Admin(){
             {!targets.length && <div className="text-sm text-slate-500">No targets yet.</div>}
           </div>
           <div>
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow">Create campaign</button>
+            <button className="px-4 py-2 bg-slate-900 text-white rounded-lg shadow">Create campaign</button>
           </div>
         </form>
         <div className="mt-6 overflow-auto">
@@ -311,7 +311,7 @@ export default function Admin(){
             <input className="w-full p-3 border rounded-lg" placeholder="Feedback" value={form.feedback} onChange={e=>setForm({...form,feedback:e.target.value})} />
           </div>
           <div>
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow">Create</button>
+            <button className="px-4 py-2 bg-slate-900 text-white rounded-lg shadow">Create</button>
             <span className="ml-3 text-sm">{message}</span>
           </div>
         </form>

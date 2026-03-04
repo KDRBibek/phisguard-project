@@ -43,7 +43,7 @@ export default function InboxTips(){
             <button
               key={tip.id}
               onClick={()=>setActiveId(tip.id)}
-              className={"text-left px-3 py-2 rounded-lg text-sm border transition " + (activeId===tip.id ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50')}
+              className={"text-left px-3 py-2 rounded-lg text-sm border transition " + (activeId===tip.id ? 'bg-slate-900 border-slate-900 text-white' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50')}
             >
               {tip.title}
             </button>
@@ -52,7 +52,7 @@ export default function InboxTips(){
 
         <div className="p-4 border rounded-lg bg-slate-50">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-white text-indigo-600 flex items-center justify-center">{activeTip.icon}</div>
+            <div className="w-9 h-9 rounded-lg bg-white text-slate-900 flex items-center justify-center">{activeTip.icon}</div>
             <div className="font-medium">{activeTip.title}</div>
           </div>
           <div className="mt-2 text-sm text-slate-600">{activeTip.description}</div>

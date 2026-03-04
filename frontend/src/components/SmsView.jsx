@@ -27,12 +27,34 @@ function ActionButtons({message, onActionResult}){
 
 export default function SmsView({message, onFeedback}){
   const [saved, setSaved] = useState(false)
+  const [lastAction, setLastAction] = useState(null)
+  const [lastResult, setLastResult] = useState(null)
   const navigate = useNavigate()
 
   function handleActionResult(res, action){
     setSaved(true)
+    setLastAction(action)
+    setLastResult(res)
     if(onFeedback) onFeedback({item: message, result: res, action, channel: 'sms'})
+    if(action === 'click'){
+      if(message?.is_phishing){
+        navigate('/phished', {state:{channel:'SMS', url: message.link_url}})
+      }else{
+        const target = `/safe-link?channel=SMS&url=${encodeURIComponent(message?.link_url || '')}`
+        window.open(target, '_blank', 'noopener,noreferrer')
+      }
+    }
     setTimeout(()=>setSaved(false), 2000)
+  }
+
+  function openDirectLink(){
+    if(!message) return
+    if(message.is_phishing){
+      navigate('/phished', {state:{channel:'SMS', url: message.link_url}})
+      return
+    }
+    const target = `/safe-link?channel=SMS&url=${encodeURIComponent(message.link_url || '')}`
+    window.open(target, '_blank', 'noopener,noreferrer')
   }
 
   if(!message) return <div className="p-6 bg-white rounded-xl shadow">Select an SMS to view</div>
@@ -55,11 +77,22 @@ export default function SmsView({message, onFeedback}){
 
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <ActionButtons message={message} onActionResult={handleActionResult} />
-        <div className="text-sm text-slate-500">Link: <button onClick={()=>navigate('/phished', {state:{channel:'SMS', url: message.link_url}})} className="text-emerald-600 underline">{message.link_url}</button></div>
+        <div className="text-sm text-slate-500">Link: <button onClick={openDirectLink} className="text-emerald-600 underline">{message.link_url}</button></div>
       </div>
 
       {saved && (
         <div className="mt-3 text-sm text-emerald-600">Saved to feedback summary.</div>
+      )}
+
+      {lastResult && (
+        <div className={"mt-4 rounded-xl border p-4 " + (lastResult.correct ? 'border-emerald-200 bg-emerald-50' : 'border-rose-200 bg-rose-50')}>
+          <div className={"text-sm font-semibold " + (lastResult.correct ? 'text-emerald-800' : 'text-rose-800')}>
+            {lastResult.correct ? 'Correct decision' : 'Needs improvement'}
+          </div>
+          <div className="text-sm text-slate-700 mt-1">Action: <span className="font-medium">{lastAction === 'click' ? 'Clicked link' : 'Reported as phishing'}</span></div>
+          <div className="text-sm text-slate-700 mt-1">{lastResult.message}</div>
+          {lastResult.tip && <div className="text-sm text-slate-600 mt-1">Clue: {lastResult.tip}</div>}
+        </div>
       )}
 
       <div className="mt-6 border-t pt-4">

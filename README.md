@@ -42,14 +42,18 @@ Quick start (development)
 pip install -r requirements.txt
 ```
 
-2. Start backend (in one terminal):
+2. Configure environment variables (optional but recommended):
+
+Copy `.env.example` to `.env` and set strong values for `SECRET_KEY`, `ADMIN_PASSWORD`, and `USER_PASSWORD`.
+
+3. Start backend (in one terminal):
 
 ```powershell
 # run Flask app
 python run.py
 ```
 
-3. Start frontend dev server (in a second terminal):
+4. Start frontend dev server (in a second terminal):
 
 ```powershell
 cd frontend
@@ -72,6 +76,22 @@ python run.py
 Notes
 - Feedback Summary: http://localhost:5173/feedback
 - API spec: docs/API_SPEC.md.
+
+Docker (local deployment)
+
+1. Create `.env` from `.env.example` and set secrets.
+
+2. Build and run:
+
+```powershell
+docker compose up --build
+```
+
+3. Open the app at http://localhost:5173
+
+Notes:
+- The backend runs on http://localhost:5000
+- The frontend preview server proxies `/api` to the backend inside Docker.
 
 Assumptions & Limits
 - This is a safe simulation tool; it does not send real emails or SMS.

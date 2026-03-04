@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 from flask import Flask
 from app.config import Config
 from app.extensions import db, login_manager
@@ -18,6 +19,7 @@ from app.blueprints.simulate.services import (
 
 
 def create_app(config_class=Config):
+    load_dotenv()
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     template_dir = os.path.join(base_dir, 'templates')
 
@@ -29,7 +31,7 @@ def create_app(config_class=Config):
 
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(user_id)
+        return db.session.get(User, user_id)
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(simulate_bp)

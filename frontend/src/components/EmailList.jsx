@@ -17,7 +17,7 @@ function Item({email, onClick, selected}){
 export default function EmailList({emails, onSelect, selectedId}){
   return (
     <div className="space-y-3">
-      <div className="px-4 py-3 rounded-md bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-semibold">Inbox</div>
+      <div className="px-4 py-3 rounded-md bg-gradient-to-r from-slate-950 to-slate-800 text-white font-semibold">Inbox</div>
       <div className="space-y-2 mt-3">
         {emails.length === 0 && (
           <div className="p-3 text-sm text-slate-500">No emails available.</div>
@@ -28,11 +28,11 @@ export default function EmailList({emails, onSelect, selectedId}){
               onClick={()=>onSelect(e)}
               className={"w-full text-left p-3 rounded-lg transition-shadow flex items-start gap-3 " + (selectedId===e.id? 'bg-white shadow' : 'hover:shadow-md')}
             >
-              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-semibold">{(e.sender||'')[0]}</div>
+              <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-800 font-semibold">{(e.sender||'')[0]}</div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
                   <div className="font-medium">{e.sender}</div>
-                    <div className="text-xs text-indigo-600 font-semibold">{(e.difficulty || 'medium').toUpperCase()}</div>
+                    <div className="text-xs text-slate-700 font-semibold">{(e.difficulty || 'medium').toUpperCase()}</div>
                 </div>
                 <div className="text-sm text-slate-600">{e.subject}</div>
               </div>

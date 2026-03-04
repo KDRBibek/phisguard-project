@@ -20,7 +20,7 @@ export default function FeedbackModal({open, onClose, result}){
         </ul>
 
         <div className="mt-4 text-right">
-          <button onClick={onClose} className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">OK</button>
+          <button onClick={onClose} className="px-4 py-2 bg-slate-900 text-white rounded hover:bg-slate-800">OK</button>
         </div>
       </div>
     </div>

@@ -58,7 +58,7 @@ def compute_user_reports():
         correct = 0
         total = 0
         for a in user_actions:
-            email = Email.query.get(a.email_id)
+            email = db.session.get(Email, a.email_id)
             if not email:
                 continue
             if a.action == 'reported':

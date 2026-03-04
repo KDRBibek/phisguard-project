@@ -50,7 +50,7 @@ def api_create_email():
 @bp.route('/api/emails/<int:email_id>', methods=['DELETE'])
 @require_admin
 def api_delete_email(email_id):
-    email = Email.query.get_or_404(email_id)
+    email = db.get_or_404(Email, email_id)
     UserAction.query.filter_by(email_id=email_id).delete()
     db.session.delete(email)
     db.session.commit()
@@ -89,7 +89,7 @@ def api_templates():
 @bp.route('/api/templates/<int:template_id>', methods=['DELETE'])
 @require_admin
 def api_delete_template(template_id):
-    t = Template.query.get_or_404(template_id)
+    t = db.get_or_404(Template, template_id)
     db.session.delete(t)
     db.session.commit()
     return jsonify({'ok': True})
@@ -131,7 +131,7 @@ def api_targets():
 @bp.route('/api/targets/<int:target_id>', methods=['DELETE'])
 @require_admin
 def api_delete_target(target_id):
-    t = Target.query.get_or_404(target_id)
+    t = db.get_or_404(Target, target_id)
     db.session.delete(t)
     db.session.commit()
     return jsonify({'ok': True})
@@ -177,7 +177,7 @@ def api_campaigns():
     except Exception:
         return jsonify({'error': 'invalid target_ids'}), 400
 
-    template = Template.query.get(template_id)
+    template = db.session.get(Template, template_id)
     if not template:
         return jsonify({'error': 'template not found'}), 404
 
@@ -223,7 +223,7 @@ def api_campaigns():
 @bp.route('/api/campaigns/<int:campaign_id>/metrics')
 @require_admin
 def api_campaign_metrics(campaign_id):
-    Campaign.query.get_or_404(campaign_id)
+    db.get_or_404(Campaign, campaign_id)
     total = CampaignTarget.query.filter_by(campaign_id=campaign_id).count()
     opened = CampaignTarget.query.filter_by(campaign_id=campaign_id, status='opened').count()
     clicked = CampaignTarget.query.filter_by(campaign_id=campaign_id, status='clicked').count()
@@ -240,7 +240,7 @@ def api_campaign_metrics(campaign_id):
 @bp.route('/api/campaigns/<int:campaign_id>', methods=['DELETE'])
 @require_admin
 def api_delete_campaign(campaign_id):
-    campaign = Campaign.query.get_or_404(campaign_id)
+    campaign = db.get_or_404(Campaign, campaign_id)
     campaign_targets = CampaignTarget.query.filter_by(campaign_id=campaign_id).all()
     email_ids = [ct.email_id for ct in campaign_targets]
     if email_ids:
@@ -262,7 +262,7 @@ def api_actions():
 @bp.route('/api/actions/<int:action_id>', methods=['DELETE'])
 @require_admin
 def api_delete_action(action_id):
-    a = UserAction.query.get_or_404(action_id)
+    a = db.get_or_404(UserAction, action_id)
     db.session.delete(a)
     db.session.commit()
     return jsonify({'ok': True})

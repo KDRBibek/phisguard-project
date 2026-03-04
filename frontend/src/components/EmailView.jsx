@@ -27,13 +27,35 @@ function ActionButtons({email, onActionResult}){
 
 export default function EmailView({email, onRefresh, onFeedback}){
   const [saved, setSaved] = useState(false)
+  const [lastAction, setLastAction] = useState(null)
+  const [lastResult, setLastResult] = useState(null)
   const navigate = useNavigate()
 
   function handleActionResult(res, action){
     setSaved(true)
+    setLastAction(action)
+    setLastResult(res)
     if(onFeedback) onFeedback({item: email, result: res, action, channel: 'email'})
     if(onRefresh) onRefresh()
+    if(action === 'click'){
+      if(email?.is_phishing){
+        navigate('/phished', {state:{channel:'Email', url: email.link_url}})
+      }else{
+        const target = `/safe-link?channel=Email&url=${encodeURIComponent(email?.link_url || '')}`
+        window.open(target, '_blank', 'noopener,noreferrer')
+      }
+    }
     setTimeout(()=>setSaved(false), 2000)
+  }
+
+  function openDirectLink(){
+    if(!email) return
+    if(email.is_phishing){
+      navigate('/phished', {state:{channel:'Email', url: email.link_url}})
+      return
+    }
+    const target = `/safe-link?channel=Email&url=${encodeURIComponent(email.link_url || '')}`
+    window.open(target, '_blank', 'noopener,noreferrer')
   }
 
   if(!email) return <div className="p-6 bg-white rounded-xl shadow">Select an email to view</div>
@@ -50,12 +72,12 @@ export default function EmailView({email, onRefresh, onFeedback}){
           {role === 'admin' ? (
             <div className="flex items-center gap-2">
               <span className={"px-3 py-1 rounded-full text-sm font-medium " + (email.is_phishing? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800') }>{email.is_phishing? 'Phishing' : 'Legitimate'}</span>
-              <span className="px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-700">{(email.difficulty || 'medium').toUpperCase()}</span>
+              <span className="px-3 py-1 rounded-full text-sm font-medium bg-slate-200 text-slate-800">{(email.difficulty || 'medium').toUpperCase()}</span>
             </div>
           ) : (
             <div className="flex items-center gap-2">
               <span className="px-3 py-1 rounded-full text-sm font-medium bg-slate-100 text-slate-500">Unknown</span>
-              <span className="px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-700">{(email.difficulty || 'medium').toUpperCase()}</span>
+              <span className="px-3 py-1 rounded-full text-sm font-medium bg-slate-200 text-slate-800">{(email.difficulty || 'medium').toUpperCase()}</span>
             </div>
           )}
         </div>
@@ -67,11 +89,22 @@ export default function EmailView({email, onRefresh, onFeedback}){
 
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <ActionButtons email={email} onActionResult={handleActionResult} />
-        <div className="text-sm text-slate-500">Link: <button onClick={()=>navigate('/phished', {state:{channel:'Email', url: email.link_url}})} className="text-indigo-600 underline">{email.link_url}</button></div>
+        <div className="text-sm text-slate-500">Link: <button onClick={openDirectLink} className="text-slate-900 underline">{email.link_url}</button></div>
       </div>
 
       {saved && (
         <div className="mt-3 text-sm text-emerald-600">Saved to feedback summary.</div>
+      )}
+
+      {lastResult && (
+        <div className={"mt-4 rounded-xl border p-4 " + (lastResult.correct ? 'border-emerald-200 bg-emerald-50' : 'border-rose-200 bg-rose-50')}>
+          <div className={"text-sm font-semibold " + (lastResult.correct ? 'text-emerald-800' : 'text-rose-800')}>
+            {lastResult.correct ? 'Correct decision' : 'Needs improvement'}
+          </div>
+          <div className="text-sm text-slate-700 mt-1">Action: <span className="font-medium">{lastAction === 'click' ? 'Clicked link' : 'Reported as phishing'}</span></div>
+          <div className="text-sm text-slate-700 mt-1">{lastResult.message}</div>
+          {lastResult.tip && <div className="text-sm text-slate-600 mt-1">Clue: {lastResult.tip}</div>}
+        </div>
       )}
 
       <div className="mt-6 border-t pt-4">

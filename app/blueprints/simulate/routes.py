@@ -30,7 +30,7 @@ def api_awareness():
     total = 0
     correct = 0
     for a in actions:
-        email = Email.query.get(a.email_id)
+        email = db.session.get(Email, a.email_id)
         if not email:
             continue
         if a.action == 'reported':
@@ -54,13 +54,13 @@ def api_emails():
 
 @bp.route('/api/emails/<int:email_id>')
 def api_email(email_id):
-    email = Email.query.get_or_404(email_id)
+    email = db.get_or_404(Email, email_id)
     return jsonify(email.to_dict())
 
 
 @bp.route('/api/emails/<int:email_id>/open', methods=['POST'])
 def api_open(email_id):
-    email = Email.query.get_or_404(email_id)
+    email = db.get_or_404(Email, email_id)
     token = extract_token(request) or (request.get_json() or {}).get('token')
     user_id = get_user_id_from_token(token)
     db.session.add(UserAction(email_id=email_id, action='opened', user_id=user_id))
@@ -71,7 +71,7 @@ def api_open(email_id):
 
 @bp.route('/api/emails/<int:email_id>/click', methods=['POST'])
 def api_click(email_id):
-    email = Email.query.get_or_404(email_id)
+    email = db.get_or_404(Email, email_id)
     token = extract_token(request) or (request.get_json() or {}).get('token')
     user_id = get_user_id_from_token(token)
     time_to_action_seconds = compute_email_time_to_action_seconds(email_id, user_id)
@@ -96,7 +96,7 @@ def api_click(email_id):
 
 @bp.route('/api/emails/<int:email_id>/report', methods=['POST'])
 def api_report(email_id):
-    email = Email.query.get_or_404(email_id)
+    email = db.get_or_404(Email, email_id)
     token = extract_token(request) or (request.get_json() or {}).get('token')
     user_id = get_user_id_from_token(token)
     time_to_action_seconds = compute_email_time_to_action_seconds(email_id, user_id)
@@ -191,7 +191,7 @@ def inbox():
 
 @bp.route('/email/<int:email_id>')
 def view_email(email_id):
-    email = Email.query.get_or_404(email_id)
+    email = db.get_or_404(Email, email_id)
     db.session.add(UserAction(email_id=email_id, action="opened"))
     update_campaign_target(email_id, 'opened')
     db.session.commit()
@@ -200,7 +200,7 @@ def view_email(email_id):
 
 @bp.route("/click/<int:email_id>")
 def click_email(email_id):
-    email = Email.query.get_or_404(email_id)
+    email = db.get_or_404(Email, email_id)
     db.session.add(UserAction(email_id=email_id, action="clicked"))
     update_campaign_target(email_id, 'clicked')
     db.session.commit()
@@ -222,7 +222,7 @@ def click_email(email_id):
 
 @bp.route("/report/<int:email_id>")
 def report_email(email_id):
-    email = Email.query.get_or_404(email_id)
+    email = db.get_or_404(Email, email_id)
     db.session.add(UserAction(email_id=email_id, action="reported"))
     update_campaign_target(email_id, 'reported')
     db.session.commit()
