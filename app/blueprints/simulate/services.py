@@ -118,6 +118,24 @@ def load_sms_messages():
             'link_url': 'https://www.dhl.com/global-en/home/tracking.html',
             'feedback': 'Legitimate delivery update with no credential request. Verify directly in the courier app if uncertain.',
         },
+        {
+            'id': 7,
+            'sender': 'Coinbase Alert',
+            'body': "Withdrawal successful. Wasn't you? Visit coinbạse.com/disable",
+            'is_phishing': True,
+            'link_text': 'Secure account',
+            'link_url': 'http://coinbase-security-example.invalid/disable',
+            'feedback': 'Red flags: look-alike domain using altered characters, urgency after a fake withdrawal alert, and a pushed link in SMS.',
+        },
+        {
+            'id': 8,
+            'sender': 'Voicemail Service',
+            'body': 'mldrarp You mave a misseh call. Cadlor left you a message: http://regalappstechnology.com/w.php?4e04in7',
+            'is_phishing': True,
+            'link_text': 'Play voicemail',
+            'link_url': 'http://regalappstechnology.com/w.php?4e04in7',
+            'feedback': 'Red flags: heavy spelling mistakes, unknown sender context, and insecure http link to an unrelated domain.',
+        },
     ]
 
     for msg in messages:
@@ -263,6 +281,47 @@ def seed_emails():
             link_text="Open finance portal",
             link_url="https://portal.gre.ac.uk/finance/receipts",
             feedback="Legitimate finance confirmation: informational receipt notice, no threat language, and no request to submit credentials by email."
+        ),
+        Email(
+            sender="App Store <billingservice-info0033@refundsubsweb.com>",
+            subject="Re: [ Statement Activity ] : Confirmation Order Product From mobile legend Full Payment Dispatched",
+            body=(
+                "Dear Customer,\n\n"
+                "This is the details of your activity:\n"
+                "Item: 3.750 Diamonds (Mobile Legend App)\n"
+                "Date: Sunday, December 9, 2018\n"
+                "Location: Singapore\n\n"
+                "For more information about your order, please open the attached PDF file.\n"
+                "Attachment: Invoice.pdf"
+            ),
+            is_phishing=True,
+            difficulty=infer_difficulty(
+                "Re: [ Statement Activity ] : Confirmation Order Product From mobile legend Full Payment Dispatched",
+                "For more information about your order, please open the attached PDF file.",
+                True
+            ),
+            link_text="Open invoice",
+            link_url="http://apple-billing-example.invalid/invoice",
+            feedback="Red flags: sender domain does not match Apple, unusual wording, and pressure to open a suspicious attachment.",
+        ),
+        Email(
+            sender="IT STAFF <alerts@microsoft-security-notice.invalid>",
+            subject="Your Password for sean@sean-wright.com has expired",
+            body=(
+                "Dear sean,\n\n"
+                "Your Password for sean@sean-wright.com has expired.\n"
+                "Dated: Wed, 04 Aug 2021 21:10:48 +0000\n\n"
+                "Keep Same Password"
+            ),
+            is_phishing=True,
+            difficulty=infer_difficulty(
+                "Your Password for sean@sean-wright.com has expired",
+                "Keep Same Password",
+                True
+            ),
+            link_text="Keep Same Password",
+            link_url="http://microsoft-reset-example.invalid/session",
+            feedback="Red flags: impersonated Microsoft branding, unusual CTA text, and suspicious non-official reset domain.",
         ),
     ]
     db.session.add_all(emails)

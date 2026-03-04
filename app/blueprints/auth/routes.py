@@ -8,8 +8,20 @@ from app.services.auth_store import ADMIN_PASSWORD, USER_PASSWORD, extract_token
 bp = Blueprint('auth', __name__)
 
 
-def _get_or_create_user(role):
-    user_id = f"{role}-{str(uuid.uuid4())[:8]}"
+def _normalize_name(value):
+    name = (value or '').strip()
+    if not name:
+        return ''
+    return ''.join(ch for ch in name if ch.isalnum() or ch in ('-', '_', ' ')).strip()
+
+
+def _get_or_create_user(role, name=None):
+    safe_name = _normalize_name(name)
+    if safe_name:
+        slug = safe_name.lower().replace(' ', '-')
+        user_id = f"{role}-{slug}-{str(uuid.uuid4())[:6]}"
+    else:
+        user_id = f"{role}-{str(uuid.uuid4())[:8]}"
     user = User(id=user_id, role=role)
     db.session.add(user)
     db.session.commit()
@@ -21,6 +33,7 @@ def api_login():
     data = request.get_json() or {}
     pwd = data.get('password', '')
     role = data.get('role', 'user')
+    name = (data.get('name') or '').strip()
     if role == 'admin':
         if pwd == ADMIN_PASSWORD:
             user = _get_or_create_user('admin')
@@ -29,11 +42,14 @@ def api_login():
             return jsonify({'ok': True, 'token': token, 'role': 'admin', 'user_id': user.id})
         return jsonify({'ok': False, 'error': 'invalid admin password'}), 403
 
+    if not name:
+        return jsonify({'ok': False, 'error': 'name is required'}), 400
+
     if pwd == USER_PASSWORD:
-        user = _get_or_create_user('user')
+        user = _get_or_create_user('user', name=name)
         login_user(user)
         token = issue_token('user', user.id)
-        return jsonify({'ok': True, 'token': token, 'role': 'user', 'user_id': user.id})
+        return jsonify({'ok': True, 'token': token, 'role': 'user', 'user_id': user.id, 'name': name})
     return jsonify({'ok': False, 'error': 'invalid user password'}), 403
 
 
