@@ -1,0 +1,392 @@
+
+
+UNIVERSITY OF GREENWICH 
+FACULTY OF ENGINEERING AND SCIENCE
+SCHOOL OF COMPUTING AND MATHEMATICAL SCIENCES
+
+
+
+
+Type Your Project Title Here
+URL: Insert a link to your prototype/code here (if applicable)
+
+
+
+Type your name here
+(insert you banner ID)
+
+
+
+Supervisor: Insert Supervisor name
+
+
+Word count: Insert number
+
+
+
+COMP1682 Final Year Individual Project 
+A dissertation submitted in partial fulfilment of the requirements for the degree of 
+BSc (Hons) Type programme title here
+
+
+October 2025
+Abstract
+
+The Abstract is a concise summary of the problem domain, contribution, implementation, findings and conclusions of the project. Abstracts are typically 250-500 words and no longer than one page. 
+
+
+
+
+
+
+
+
+Declaration of AI Use 
+
+Please complete this part when you have used AI during the process of undertaking this assignment to acknowledge the ways in which you have used it. 
+
+I have used AI while undertaking my assignment in the following ways:  
+To develop research questions on the topic – YES/NO  
+To create an outline of the topic – YES/NO  
+To explain concepts – YES/NO  
+To support my use of language – YES/NO  
+To summarise the following articles/resources:  – YES/NO  
+   
+  
+  
+  
+  
+  
+In other ways, as described below:  – YES/NO  
+
+
+Acknowledgements
+
+It is customary to acknowledge any substantial help, with either the project work or the report, from people and other informal sources.
+
+
+
+
+Contents
+Abstract	ii
+Declaration of AI Use 	iii
+Acknowledgements	iv
+Contents	v
+1	Introduction	1
+1.1	Background	1
+1.2	Aims and Objectives	2
+1.3	Methodology	2
+1.4	Report Roadmap	3
+2	Literature Review	4
+2.1	Introduction	4
+2.2	Some major research theme/topic/area	5
+2.3	Another major research theme/topic/area	5
+2.4	More major research themes/topics/areas	5
+2.5	Conclusion	6
+3	Product Review (if applicable)	7
+3.1	Introduction	7
+3.2	Product 1	7
+3.3	Product 2	7
+3.4	Key findings	7
+3.5	Conclusion	7
+4	Requirements Analysis and Design	8
+4.1	Introduction	8
+4.2	Requirements Analysis	8
+4.3	Design	9
+4.4	Conclusions	10
+5	Implementation	11
+5.1	Introduction	11
+5.2	A major section relevant to system/prototype implementation	11
+5.3	Another major section relevant to system/prototype implementation	11
+5.4	More major sections relevant to system/prototype implementation	12
+5.5	Testing	12
+5.6	Conclusion	12
+6	Results and Evaluation	13
+6.1	Introduction	13
+6.2	Results	13
+6.3	Evaluation	14
+6.4	Conclusion	15
+7	Legal, Social, Ethical and Professional Issues	16
+8	Conclusion	17
+8.1	A major section summarising the work	17
+8.2	Another major section summarising the overall outcomes	17
+8.3	More major sections relevant to the overall conclusion	17
+8.4	Future Work	17
+Appendix A -	Project Proposal	20
+a.1	Revised Proposal/Project Aim (if applicable)	20
+a.2	Revised Project Plan	20
+a.3	Original Proposal	20
+a.4	Project Plan	20
+Appendix B -	Xxxxx Yyyyy	21
+b.1	A major section in Appendix B	21
+b.2	Another major section in Appendix B	21
+b.3	More major sections in Appendix B	21
+General Notes (delete in your final submission):
+The report should be written for an audience who is knowledgeable and technically proficient in your domain area but may not necessarily be familiar with the specifics addressed. The better reports are those that are clear, easy to read, flow coherently with unambiguous explanations that use minimal jargon, take a critical perspective, are well-illustrated with diagrams and appropriate figures/tables and are sufficiently supported by evidence from the literature and implementation. Writing a good comprehensive report takes time and careful planning and time. Aim to spend at least four weeks writing your final report. Your contextual report will form the basis for this report, and you may build on the literature review and design chapters you have already written.
+A final project report is approximately 10,000 – 12,000 words with an allowance of +/-10%. You must include a word count on the cover page. It is acceptable to include relevant material in appendices, but you must refer to them, where relevant, in the body of the report. The abstract, acknowledgement, ToC/ToF/ToT, tables/figures/captions, references and appendices are all excluded from the word count.
+Layout and Presentation
+The report should be divided into chapters, each of which may be divided into sections, which again may be divided into subsections and so on. In the body of the report, each chapter should start on a new page. Specific topics may have one or more chapters devoted to them. 
+Chapter headings should appear more important than section headings. Use the styles "Heading 1", "Heading 2", and "Heading 3" for the main body of the report. Use "Headings others" for the abstract, acknowledgements, etc. and "Headings for appendices" style for the appendices. 
+Chapters should be numbered as 1, 2, …, each section sub-numbered as 2.1, 2.2, 2.3… and further decomposition into subsections numbered as 2.2.1, 2.2.2, 2.2.3 and so on. The contents page should list the most significant of these. This will be done automatically if you use styles. 
+Report Structure
+The top-level structure of your report should include at least the following:
+Title page
+Declaration of AI Use
+Abstract
+Table of contents 
+Tables of figures/tables/glossary
+Chapter 1: Introduction
+Chapter 2: Literature Review
+Chapter 3: Requirements Analysis and Design
+Chapter 4: Implementation
+Chapter 5: Results and Evaluation
+Chapter 6: Legal, Social, Ethical, and Professional
+Chapter 7: Conclusions
+References
+Appendix A - Project Proposal
+Appendices
+It is not the intention of the template to constrain your reports. The content, and consequently the chapters, may vary for different projects. However, at the very least, your report must include this top-level structure, and the details outlined below. Each project is unique, so you should seek your supervisor’s guidance on organising your report and its content, considering the nature of your project.
+It is a good idea to include an introduction and a conclusion in each chapter of your report. They serve as navigational signposts that guide the reader through the argument/project story to ensure a clear, logical, and coherent flow, while also summarising key points and reinforcing the chapter's significance.  The introduction leads your reader into the main text, stating the key purpose of the chapter and its significance to your argument/project story, while the conclusion leaves your reader with a final impression, including a summary of the chapter, the key points and insights it brings and links these to the following chapter.
+Writing Style
+In academic and scientific writing, aim for the following qualities: 
+Formal
+Objective
+Clear and unambiguous
+Succinct 
+Formal
+Avoid common, colloquial or casual language: 
+words such as: 'stuff', 'things', 'really' 
+contractions and sentence fragments such as: 'isn’t', 'didn’t', 'couldn’t', 'wouldn’t' 
+phrases such as: 'kind of', 'sort of', 'a bit' and ‘sort of’
+'e.g.' or 'etc.' – use 'for example...' instead.
+Write in active voice rather than passive voice. The active voice makes sentences clearer and more direct. The active voice places the subject at the beginning of a sentence before the object. While the passive voice puts the object at the beginning 
+Example active voice: "The algorithm uses PSO to optimise pathfinding by …"  vs
+Example passive voice: "PSO was used in the algorithm to optimise pathfinding by…".
+When discussing your project, refer to it in the past tense. You will have completed the project by the time the report is read.
+When discussing the report, it can be in the present or future tense.
+Objective
+Critique your own work as well as others. 
+Argue with yourself! and make sure your arguments are justified and supported by facts.
+Incorporate and address material that contradicts or challenges your argument. Show that you have critically and impartially engaged with all the sources you have referenced.
+Clear and unambiguous
+Avoid complex words and jargon. 
+Use straightforward language that is easy to understand.
+When introducing technical terms, provide definitions or explanations to ensure the reader is familiar with the terms.
+Be specific and precise in your writing - avoid vague terms and ensure your sentences have clear meaning.
+Use examples to illustrate complex concepts. 
+Succinct
+Eliminate unnecessary words and phrases. 
+Focus on conveying your message in as few words as possible.
+
+Introduction
+The first chapter of the report is commonly an introduction. The introduction should motivate the project, describe why the problem domain is relevant and worth pursuing and set the scene by giving a clear description of the high-level problem the project addresses and briefly how it is approached. These points must be clearly highlighted to ensure the reader can build a clear understanding of the problem domain, the issue being addressed, its relevance/importance, and the proposed approach. 
+Clearly define the scope and objectives of your project, outlining its overall purpose and significance. A strong introduction should engage the reader while positioning the study within its broader context. A strong introduction, like a strong piece of media, will grab the attention of the reader. Identify the key questions or challenges your project addresses and explain their relevance. Provide a concise overview of the work undertaken, including an explicit statement/section for the project aim, objectives (referencing the project proposal in the appendix), and the methods applied at each stage of the project. 
+Lastly, the introduction chapter should give a clear indication of what is to come in the report. As you write your report, try to aim for it to be as "reader-friendly" as possible. Provide clear signposting to what is to follow in the report and briefly give clear indications about their relevance and how they fit into the overall project story.
+Below are typical subsections that you expect to see in an introduction chapter.
+Background
+The background typically provides broad background information, motivating and justifying the need for the work you have done. You should provide sufficient background information for the reader to understand the purpose of the project in the context of relevant previous work. 
+Examiners want to see that you have conducted thorough background research (and later, a literature review) to establish the need and feasibility of your project. It is essential to review existing and prior work in your domain area and establish the concepts/theory/models/work that your project is based on. You will expand on this in more depth in the literature review – you are setting the scene here to motivate the project and inform readers about broad work in your problem domain and the significance of your project. Include current efforts that address your or similar problems and discuss existing products relevant/similar to yours. 
+Clear, relevant references and citations are important here, and it is important that you take a critical perspective on the work you reference. Much of this content may already be covered in your interim/ contextual report. You can incorporate the feedback you received for that report in this report. You may reuse content and text from your interim/contextual report. Self-plagiarism between the reports you have submitted on COMP1682 is not an issue, so no citation is required for your own earlier work.
+Questions/points to consider when writing the background section
+Ask yourself and consider the following questions, as you write your background section:
+What background information is necessary for the reader to understand what that project does and the rest of the report?
+What specific problem is being addressed?
+How is this problem relevant to your degree programme of study?
+Why is this problem significant and worthwhile solving? 
+Who benefits from a solution to the problem? 
+What has already been done in this area? What is the most prominent or key work in the problem domain?
+What existing work does your solution build on? and WHY? 
+Note: address this point briefly here to set the scene and allow the reader to understand where your ideas are coming from. You will need to expand with much deeper analysis and detail in the literature review chapter.
+The background should cover both the general theory and a broad view of existing work relevant to yours. Supervisors can guide you in deciding what is most important here. However, the general rule is to provide both a broader context and note prior work that closely relates to and influences yours. You will expand on this and exploring answers to the questions above in the literature review.
+Aims and Objectives
+The aim is typically a single statement describing the output of your project. For example, "This project aims to develop and evaluate a hybrid metaheuristic algorithm that incorporates genetic algorithm and ant colony optimisation for pathfinding in video games". You can then expand with further details in a following paragraph, but the statement should be sufficiently detailed to give a general indication of the intended outcome of your project and the prototype the project produces.
+The objectives are the tasks that need to be done in order to achieve the project's aim. They should all have specific deliverables and be measurable to help you achieve the aim. You should revisit these in the Evaluation chapter, where you critically reflect on and evaluate how successful you have been in your work. 
+Methodology
+Describe the approach you took to implement your project in terms of the research and the development of the prototype. By reference to journals and current work, identify the approaches and methodologies that have been used/developed in your problem domain and state what you used as a methodology, testbed, programming framework, simulation, etc. 
+This section should be a justification, not a detailed description of generic methodologies. The choice of methodology will vary between projects. The key points here should be about presenting evidence (i.e. references) as to why you chose your methodologies. Why did you use, for example, RAD, iterative prototyping, personas, etc., in the design and development of your prototype?
+Selecting a suitable research method is essential for drawing meaningful conclusions related to your research question. An extensive list of research methods, along with guidance on their application, is available at SAGE Publishing. These methods apply to any information or data type, including quantitative, qualitative, primary, and secondary sources.
+Once more, you should have a section in the Evaluation chapter which reflects on the effectiveness of these methodologies in your specific project.
+Report Roadmap
+Give a clear indication of what is to come in the report. As you write your report, try to aim for it to be as "reader-friendly" as possible. Avoid a listing of the chapters in your report. Instead, provide clear signposting to what is to follow in the report and briefly give clear indications about their relevance and how they fit into the overall project story. Briefly introduce each chapter by indicating the content to expect, its relevance to the project/solution journey/story, and the link to the following chapter. 
+
+Literature Review
+This is where you present a concise yet comprehensive exploration of existing past and current research/ work/theories/concepts relevant to your problem domain. Your review should demonstrate a thorough understanding of the current state of research/work in the problem domain area, enabling you to effectively position your project within the broader context of existing work. You should synthesise the key ideas, work, and theories/concepts into a critical exposition of what is known. The purpose here is to prepare the grounds for applying these in your project, and justifying the findings that you will build upon in your implementation.
+Introduction
+A literature review extends beyond an account of separate reviews of existing work. It serves as a critical, analytical synthesis of existing knowledge relevant to your problem domain. The literature review should critically analyse and compare concepts, theories, existing work, the current state of the art (SoA), and findings, integrating them into a cohesive discussion rather than presenting them as separate summaries. They should be structured around a specific theme or focus to provide coherence and direction. While a literature review does not need to be exhaustive, it must discuss the most significant work relevant to that focus.
+In this chapter, you are expected to build upon the questions set out for the Background section, investigating them in much more granular detail to leverage the findings in shaping your solution and implementation. Provide a more in-depth and technically rich exploration of the following points to ensure a comprehensive and robust discussion.
+What has already been done in this area? What is the most prominent or key work in your problem domain?
+What existing work does your solution build on? and WHY? 
+Expand with much deeper analysis and detail, progressing towards an explanation of how this may or may not be applied in your solution or implementation.
+What are possible alternative solutions? And WHY did you disregard them?
+How you organise the structure of your literature review depends on the problem domain and the project aim. Literature reviews are typically organised thematically, grouping studies based on theoretical frameworks, methodologies, key issues, or central concepts rather than following a chronological listing. A thematic approach facilitates the comparison of different perspectives, research methods, approaches, and findings, allowing for a critical examination of existing work. It enables you to highlight strengths, identify weaknesses, and expose gaps in the literature. This analytical process is central to a literature review. Your literature review must provide a critical evaluation of the current state of knowledge in the problem domain and outline how the project aligns with and builds on established work in the domain. 
+Some major research theme/topic/area
+Break the literature review up into logically coherent sections with suitable headings & subheadings. Start with your main arguments. In the introduction, you will have introduced the problem your project is addressing. Now you will research the background in more depth. What are the main points of view? 
+As a general rule, ensure that all your statements are supported by evidence and that you can justify any claims presented. Do not make generalisations. Question the points of view you have found. Ensure your sources are varied and credible. Although you are presenting your ideas and your interpretation of / response to the evidence from the research, you must present them as academic suppositions and arguments, not as personal beliefs. Avoid the first person in your writing. All research material must be referenced in the body of your report using the Harvard referencing style. 
+Include summaries of arguments derived from the literature research. Avoid the use of quotes; present what you have learnt from your research, not the research itself. If you must include a quote, ensure it is brief and directly relevant. Incorporate alternative positions, perspectives, counterarguments, or secondary viewpoints in your discussion narrative. For example, different practitioners and theorists may have completely different ideas, methodologies or ways of working that are not mainstream, or if your position is not mainstream, this is an opportunity where you might demonstrate your awareness of mainstream practices and theories while articulating your reasoning for yours. 
+A key section relevant to the research 
+More key sections relevant to the research 
+etc., etc. 
+Another major research theme/topic/area
+A key section relevant to the research
+More key sections relevant to the research
+etc., etc.
+More major research themes/topics/areas
+A key section relevant to the research
+More key sections relevant to the research
+etc., etc.
+Conclusion
+Provide a brief summary of your problem and how the project will address it based on the findings from your literature review. Summarise the main arguments in the area, your evaluation of those arguments and your research findings. Present the significance of your findings, and clearly state how they will inform your design and implementation – what are the key points that you can use?  
+As a general rule, this section should aim to summarise the evidence supporting different approaches to your domain problem, critically analysing their relevance and effectiveness. Draw clear conclusions that establish context for your prototype requirements analysis, primary research, and the subsequent testing and evaluation of your prototype. 
+Conclude the section with a final statement that connects this chapter to the next, ensuring a logical, cohesive, coherent flow in your report.
+Product Review (if applicable)
+Introduction
+Depending on the nature of your project and the domain problem, it may be necessary to include analyses of similar products within the domain area. Clearly explain and justify your approach to the analysis, detailing the rationale behind your selection of products and the criteria used in your evaluation. Use the findings from your literature review to justify the criteria chosen for the product comparison. Present the outcomes of your analysis and summarise the general insights gained to support/reinforce the underpinnings of your project implementation. 
+Product 1
+Review the product. Use appropriate level 3 headings based on the criteria for each product.
+Overview
+Criterion 1 
+Criterion n
+Product 2
+Overview
+Criterion 1 
+Criterion n
+Key findings
+Collate the criteria and products in a comparison table to present a clear and structured overview. Accompany the table with a critical narrative that highlights the key insights gained from your analysis. Reflect on and document how these insights influenced and informed the design and implementation of your prototype, ensuring a thorough connection between the analysis and your project development.
+Conclusion
+Provide a summary of your findings and the insights gained. Present the significance of your findings and clearly state how they will inform your design and implementation – what are the key points that you can use? Conclude the section with a final statement that connects this chapter to the next, ensuring a logical, cohesive, coherent flow in your report.
+Requirements Analysis and Design
+Projects delivering a prototype/functional outcome typically begin with an exploration of the specifications necessary for that deliverable before design and development. Provide a detailed account of the process you followed for requirements capture and elicitation, along with the analysis conducted to define the specifications for your project prototype. Give a detailed outline for the specifications. This should go beyond the initial specification, identifying the essential elements and desirable features required in the final product. 
+The outcomes of your requirements capture should establish/refine the project's objectives, underpin your technical designs and provide a basis for evaluating the overall project.
+You may present this content as a single chapter or separate it into different chapters for "Requirements Analysis" and "Design".
+Introduction
+Provide a brief overview of the chapter, outlining its purpose, the content it will cover, and its relevance/ importance to the overall report and project.
+Requirements Analysis
+A key section relevant to the requirements analysis 
+Discuss the methods and analysis you did to determine the necessary implementation requirements for your prototype. Where you got the information from, for example, review of existing work/approaches/ solutions/products, results from focus groups/interviews, results from typical methodologies used in the problem domain, a reflection on what is needed for your project/prototype, what you decided to create based on this – i.e. functional specification, etc.
+Assumptions and Constraints (if applicable)
+Assumptions are a common element of any development project and are typically understood as a set of constraints that help define and narrow the scope of the development. Provide a well-reasoned outline of the assumptions and constraints that define your prototype development. Justify why they are needed and explain the potential implications of addressing them (or not) on the development. 
+Clearly defining and addressing realistic, justified assumptions and constraints upfront helps you effectively manage expectations, make informed decisions, and ensure that your solution is developed within the predefined scope and limitations.
+Functional Requirements 
+List the functional requirements you have identified for your prototype and prioritise them using the ranking, MoSCoW (Must-have, Should-have, Could-have, Won't-have (but might later), or AHP (Analytic Hierarchy Process) methods to categorise and assess their importance in your project. Expand with a justification for the prioritisation used.
+Non-functional Requirements 
+List the non-functional requirements you have identified for your prototype and prioritise them using the ranking, MoSCoW, or AHP methods to categorise and assess their importance in your project. Expand with a justification for the prioritisation used.
+More key sections relevant to the requirements analysis 
+etc., etc.
+Design
+Provide a clear, high-level summary of your prototype design (system/model/DB/UI/UX/etc.), the process you took to reach the design and the rationale behind it. Justify your decisions by referring back to your literature/product review, focus groups, etc. Illustrate your design with appropriate diagrams, including: a high-level system architecture, component diagrams, UMLs, UCDs, DFDs, ERDs, high and/or low-fidelity UI/UX designs, etc. 
+In many cases, the final design may have evolved and diverged significantly from the initial one. If substantial differences or noteworthy changes happened, document them and provide a clear explanation for the changes. It is possible that further research and experimentation during your project led to new insights, altering its direction or rendering earlier work obsolete. If this is the case, document that too. You may get further credit for the design process. Rejected or obsolete designs, and more detailed information, can be included in the appendices, referring as necessary to them in the main body of the report to provide additional context or in-depth explanations.
+If parts of the design were not fully implemented, specify which were completed and which were not. Additionally, if unexpected challenges prevented full implementation, provide a detailed discussion of these obstacles and offer any insights from the experience. This may get you some credit.
+The project report is often written after the project is completed and should describe the work done, but it does not need to follow a chronological order. Often, the most effective way to explain your design is different from how it originally developed. If the progression of ideas is relevant or particularly insightful, include it, but otherwise, the sequence of events does not need to be strictly documented.
+Examiners are equally interested in the engineering process you took as they are in the final outcome. Your report should highlight key design choices, the alternative options, and the rationale behind your decisions. They are looking for logical reasoning, critical assessment, and thoughtful justification. The decisions you made would have involved trade-offs and may have been influenced by various factors, some of which may be beyond your control. Demonstrating an understanding of these trade-offs and effectively communicating them is an essential part of the report.
+A key section relevant to the system/prototype design 
+System Architecture 
+UI/UX (if applicable) 
+More key sections relevant to the system/prototype design 
+Conclusions
+Provide a concise summary of the key findings and decisions presented in the chapter. Highlight the significant requirements identified and how these shaped the design choices for the project. Emphasise how the analysis and design approach supports the overall project objectives and aligns with the intended outcomes. Additionally, briefly address any limitations or considerations discovered during the process and outline how these are/will be addressed. 
+Conclude the section with a final statement that connects this chapter to the next. Ensure the conclusion transitions smoothly to the next chapter, maintaining the logical, cohesive, coherent flow of the report.
+Implementation
+This chapter should present what was actually produced and explain how it was implemented. Describe the technical development based on the analysis and designs outlined in the previous chapter. Highlight and illustrate the features, functionality, and mechanics of the prototype. When discussing the implementation, prioritise explanations of the conceptual and logical design before delving into specific technical details. Refer to your design and the literature review. Focus on the most significant or interesting parts of the development, including any challenges faced or unexpected outcomes. Since it may not be feasible or relevant to address every detail, ensure clarity regarding what is omitted from the discussion. Explain the rationalised decisions and techniques you used and implemented. 
+Introduction
+Provide a brief overview of the chapter, outlining its purpose, the content it will cover, and its relevance/ importance to the overall report and project.
+Descriptions of programs may include fragments of significant, core code. More extensive blocks of code may be placed in the appendices, if necessary, but should typically be excluded from the report as the code can be accessed from the code uploaded to Moodle. Include code snippets only when they demonstrate algorithmic flow, interesting/significant complexity core to the solution, optimisation strategies, noteworthy interactions, or other key functionalities. Avoid using code fragments that lack a clear purpose or cannot be adequately explained.
+Similarly, screenshots of the prototype should be used sparingly and only if they serve a specific purpose. They can be included to illustrate complex interactions, failure modes, or results that are otherwise difficult to represent. Avoid using screenshots as page fillers, proof of tool launches, or simplistic alternatives to well-designed figures, as this approach may appear unprofessional. When including screenshots, annotate and edit them to emphasise relevant details.
+Include a section titled "Code Repository Outline" to outline the high-level structure of the source code repository, indicating whether the code was developed from scratch or adapted from an existing project or tutorial (reference the resources used). Effective use of APIs, libraries, or pre-existing code is acceptable if acknowledged appropriately, there is limited reliance on existing code, and your own code development is significant, making up the bulk of the implementation. It is essential you clearly identify and attribute any portions of the work that were not your own (whether they are small or large).
+A major section relevant to system/prototype implementation 
+Another major section relevant to system/prototype implementation 
+
+More major sections relevant to system/prototype implementation 
+etc., etc.
+Testing 
+The Testing section should provide a detailed account of the verification and validation processes applied to ensure the functionality, reliability, and performance of the prototype. Describe the testing process and types of testing you conducted to verify the functionality of the prototype program/system. Outline your test plan, detailing the methods used, as well as the tools and frameworks utilised during testing. Provide clear justifications for the chosen testing methodologies, such as unit testing, integration testing, or system testing, and explain how they address the project requirements. Include the actual test results in an appendix. While detailed test data may be excluded from the main report if deemed unnecessary, a concise and accurate summary of the tests conducted must be included.
+It is important to provide a clear and accurate account of the functionality, specifying which components work as intended and how their performance was validated. Avoid presenting non-functional or partially working designs as fully operational. Examiners may choose to compile and test the deliverables themselves, so it is essential that your report accurately represents the current state of the prototype implementation.
+Note testing may be included as a separate chapter or a subsection of the implementation chapter.
+Unit Testing
+Integration Testing
+Usability Testing  
+More sections on different types of testing conducted  
+etc., etc.
+Conclusion
+Provide a critical summary of the test outcome and insights gained during the testing process. Highlight how the tests conducted validate the functionality and performance of the prototype against the stated requirements. Discuss whether the testing outcomes meet expectations and identify any unresolved issues, limitations, or areas for improvement. Reflect on the effectiveness of the testing methodologies and tools used, as well as any challenges encountered and how they were addressed.
+Conclude the section with a final statement that connects this chapter to the next. Ensure the conclusion transitions smoothly to the next chapter, maintaining the logical, cohesive, coherent flow of the report.
+ Results and Evaluation 
+This chapter should present and critically assess the outcomes and the overall project. Begin by summarising the key results, ensuring they are directly linked to the project objectives and requirements outlined earlier in the report. Use a clear, concise narrative supplemented with charts, tables, or graphs to effectively communicate the outcomes, emphasising any significant findings and insights.
+Provide a thorough evaluation of these results, analysing how well the project meets its objectives and any benchmarks or performance criteria you have established. Address both successes and shortcomings, offering an honest assessment of the strengths, limitations, and any unexpected challenges encountered.
+Include a discussion on the implications of the findings, both in terms of the project's aim and objectives, as well as the broader context, such as real-world applications and future work. Reflect on the methodologies, tools, and approaches used, considering their effectiveness and suggesting improvements where applicable. Include comparisons with similar existing work or solutions to further contextualise the results and achievements.
+You may present this content as a single chapter or separate it into different chapters for "Results" and another for "Evaluation".
+Introduction
+Provide a brief overview of the chapter, outlining its purpose, the content it will cover, and its relevance/ importance to the overall report and project.
+Results
+Present the outcomes of the prototype and project in a clear and structured manner, linking them back to the original objectives and hypotheses outlined in earlier chapters. Begins with a brief introduction that reiterates the purpose of the work and sets the context for the data and findings that follow. The results should be presented objectively, providing a concise yet comprehensive account of what was achieved before transitioning into their interpretation.
+The presentation of the results should focus on the objective reporting of raw findings. This section is chiefly descriptive, focusing on organising and displaying data collected from experiments, usage, surveys, or system outputs without offering interpretations. The emphasis here is on ensuring clarity and accuracy so that the reader can see what was achieved without bias. 
+For example, if a project involves algorithm performance testing, this section should present execution times, accuracy rates, or memory usage in tables and graphs. If it involves user surveys, it should display feedback through summary tables or bar charts. Screenshots of the prototype functionality may also be included. However, at this stage, there is no deep discussion on why certain results occurred or how they compare to expectations. This is reserved for the evaluation section.
+Core to this section is the focus on the presentation of data and raw results. To enhance clarity, tables, charts, and graph plots should be used to visually represent key findings, while screenshots can illustrate important aspects of the prototype’s functionality or user interface. The results should be structured in a logical sequence, following the approach taken in the methodology, making it easy for the reader to follow the progression of the findings.
+A key section relevant to results
+Another key section relevant to results 
+More key sections relevant to results
+etc., etc.
+Conclusion
+Conclude the section by summarising the key findings, reinforcing the most significant outcomes and their implications. It serves as a bridge to the discussion or conclusion chapter, where these results will be further interpreted in relation to the broader context of the research. This structured approach ensures that the results section remains focused, objective, and informative, laying the grounds for deeper analysis in the evaluation section.
+Evaluation 
+Following the presentation of the raw results, this section should expand with a detailed, critical analysis and evaluation of those results to validate the significance of the outcomes. Report on the insights gained and position them in the wider problem domain context. You should also examine how the outcomes align with the initial expectations and whether the objectives of the project were met. Where relevant, comparisons should be drawn between the results achieved in this project and similar existing work/approaches in the problem domain, highlighting improvements, similarities, or differences. Any anomalies or unexpected results should be acknowledged, along with possible explanations. The evaluation should use well-justified evaluation metrics and criteria. In cases where benchmarking is relevant, comparisons with similar solutions or current standards would further contextualise the results. 
+Any limitations encountered, such as constraints in data collection, testing/simulation environments, or computational resources, should be acknowledged to provide a balanced perspective on the results. Additionally, any unexpected findings that emerge should be examined and accompanied by an exposition suggesting possible reasons for them.
+For projects incorporating user feedback or qualitative assessments, this section should also include an evaluation of user responses, detailing aspects such as usability, efficiency, and overall satisfaction. Patterns in qualitative data should be highlighted, and recurring themes in user feedback discussed. For such project, where you were not able to evaluate with real users, define stereotypical personas and use the characteristics set out for these in your evaluation here.
+This section is different from the results section, focusing on critically assessing your work compared to existing work/solution and the original aim and objectives of your project. Discuss the extent to which your initial objectives have been achieved, providing a clear rationale for any changes that occurred during the project. Compare the advantages and disadvantages of your work/solution/approach with those of similar work and explain how the scope of your project differs from related efforts.
+Examiners expect your report to demonstrate your ability to think critically, which includes reflecting on your work and evaluating its significance. By offering a thoughtful and objective evaluation, this section highlights the depth of your understanding and the impact of your work
+Evaluation Criteria/Metrics
+A key section relevant to evaluation 
+Another key section relevant to evaluation 
+etc., etc.
+Conclusion 
+Summarise the overall outcomes of your project and the results you achieved. Take a critical perspective considering whether they align with your initial expectations and reinforce the insights gained from the evaluation. If you have produced unexpected results, explore potential reasons for these discrepancies.
+Conclude the section with a final statement that connects this chapter to the next. Ensure the conclusion transitions smoothly to the next chapter, maintaining the logical, cohesive, coherent flow of the report.
+
+
+Legal, Social, Ethical and Professional Issues
+These areas often overlap. While you are not expected to be a legal expert, you should demonstrate an understanding of the potential impact of these areas on your project and prototype development. It is generally not a good idea to decompose this chapter into subsections labelled as "Legal", "Social", and so on, as these aspects are closely related.
+Examples of LSEPi considerations include: the Data Protection Act, research ethics, adherence to accepted standards, and alignment with BCS professional (and other professional body) benchmarks, potential user reactions to your product/prototype, copyright compliance, security, accessibility, issues of offensiveness, etc.
+If your product/prototype were to be deployed commercially, what challenges may arise and what factors need to be considered? These could include factors such as costs (both financial and time-related), ownership of assets and data, ongoing maintenance, scalability, and more.
+You may find it helpful to include a list of all applicable laws you considered and why. Where appropriate, you may mention those you have excluded, with reasons why they do not apply. 
+
+Conclusion
+The conclusion should provide closure to the report while tying together the work completed, offering a sense of achievement, and leaving the reader with a clear sense positioning the work in the wider context. The closing chapter commonly includes a summary of the work done and a conclusion together with any recommendations. In summarising, highlight the important stages and outcomes of the project. The conclusions would normally consider and comment critically upon the results of the project. This involves both the process and the prototype, including a consideration of the extent to which the aim of the project has been achieved. Finally, recommend ways in which the work could be applied or extended. The intention here is to position your work and achievements in the broader context of the domain area.
+This chapter is a final opportunity to summarise the work and main results, reflect on the project’s overall achievements, reinforce key contributions or insights and suggest potential future work. 
+Begin the by succinctly reiterating the main findings and results of your project. Highlight how the objectives and research questions were addressed and whether the project met its intended aim and objectives. Then reflect on the significance of your work within the context of the broader problem domain. Discuss how your builds on existing work to help solve specific problems in that domain. Include a brief recap of any novel methods, technologies, or approaches you applied, and insights you have gained in the process. Acknowledge or reiterate any limitations or challenges encountered during the project, whether technical, theoretical, or logistical. Discuss how these limitations affected the results or scope of the project and provide any insights gained from how to overcome them. 
+Lastly, suggest areas for future work or improvement. This could involve recommendations for enhancing the project, addressing limitations, or applying your findings in different contexts. Highlight any extensions or modifications that could lead to more robust solutions or open new avenues for investigation. Conclude with a reflective statement about your project journey, your learning, and how it has shaped your understanding of the subject matter. Where possible, include any concluding remarks on the broader implications of the work and its potential real-world applications.
+A major section summarising the work
+Another major section summarising the overall outcomes 
+More major sections relevant to the overall conclusion 
+etc. etc.
+ Future Work
+Finally, recommend ways in which the work could be improved, applied or extended.References
+Provide publication details for all the citations in the report. Ensure you use credible scientific resources – for example, IEEE/ACM journals and conference papers. Open-access journals are acceptable. Internet URLs are allowed and, in some cases, necessary. However, keep this to a minimum and ensure that you are not basing the underpinnings of your work on such sources 
+References should be formatted in Harvard style and ordered alphabetically by the name of the author (or, if there is more than one, the name of the first author). Each reference should state the author’s name and initials, date (in parentheses), title, publisher and place of issue (if known) e.g. Seber G.A.F. (2003), Multivariate Observations, John Wiley, New York.
+If referencing a journal or a conference proceedings article, include the journal title, volume, issue number, and page numbers. For example: Parnas, D.L. et al. (2001), 'Evaluation of Safety-Critical Software,' Communications of the ACM (CACM), Vol. 33, No. 6, pp. 636–651."
+When citing internet sources, include the word "online" in brackets after the title of the work and provide the URL following the name of the publisher. Whenever possible, present the citation in a standard format that includes the publishing body, date, and author(s). Additionally, open URLs to published material may be included for the reader's convenience where such links are available.
+
+
+Appendices (Guide – delete guide in your final submission)
+This should include detailed and technical documentation such as tables of results, diagrams, key parts of program source code, testing documentation, etc, which are essential parts of the project but not directly a part of the main discussion in the report. All contents of appendices should be exclusively products of your own work and referred as necessary in the main body of the report to provide additional context or in-depth explanations.
+Examples of key code may be provided in an appendix, but generally, code should be uploaded to the Moodle code submission area. Examiners like to see some sample code or more detailed diagrams and appendices are the sensible places unless they are core in which case they should be presented in the main body of the report.
+Other materials used during the project work (such as information from questionnaires and other primary research responses, focus group notes, user manuals, etc), which are necessary to include should, if possible, be summarised before including in the appendix. You should keep the original copies of such material. You may be required to be produced as supporting evidence of their work. 
+The report's 12k-word limit excludes content in the appendices. However, the appendices should remain concise, ideally no more than 10-15 pages. They should include content that is essential to maintaining the value of the work or only tangentially relevant but not intended to be reviewed in detail by examiners. 
+Typical content that may be included in the appendices includes, but is not limited to, the following:
+Project proposal. The first appendix MUST include your final project proposal and project plan, along with any changes that were made during your project.
+Testing documentation and test data. Include details of your test plans, the types of tests conducted, the process and the results. The report body should refer to this appendix for detail and only include summaries of the testing process and types of tests and test data presented in a clear and human-readable format.
+Primary research material and results: The material used for any primary research conducted (such as user or focus group surveys, questionnaires, interview questions, etc.) should be included in an appendix. The appendix should also include the responses gathered. A summary of the results and the insights gained should be presented in the main body of the report,
+Raw results. Tables containing extensive or difficult-to-read results should not appear in the main report body but may be included in the appendices for reference and to provide evidence.
+Supplementary material: Content that is tangentially related to the project, such as technical details of APIs and open-source libraries used, may be included in the appendices. Although not required, such material could be relevant in specific cases where it provides additional context.2
+Project Proposal
+Include both the final and original versions of your project proposal and project plan. If the original proposal changed, provide the variations to illustrate how it was adapted. Refer to the project plan in your evaluation chapter, reflecting on how effectively you adhered to your schedule, the reasons behind any changes, and how you adjusted it to achieve the project objectives and meet the deadlines. 
+Revised Proposal/Project Aim (if applicable)
+Revised Project Plan
+Original Proposal
+Project Plan
+
+
+
+Xxxxx Yyyyy
+A major section in Appendix B
+Another major section in Appendix B
+More major sections in Appendix B
+

@@ -12,7 +12,7 @@ import Awareness from './pages/Awareness'
 import Phished from './pages/Phished'
 import SafeLink from './pages/SafeLink'
 import Home from './pages/Home'
-import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom'
+import { Routes, Route, Link, Navigate, useNavigate, useLocation } from 'react-router-dom'
 
 export default function App(){
   const [emails, setEmails] = useState([])
@@ -171,7 +171,7 @@ export default function App(){
             </div>
           </div>
           <nav className="flex items-center gap-2">
-            {location.pathname !== '/login' && <Link to="/" className={navClass('/')}>Home</Link>}
+            {location.pathname !== '/login' && <Link to="/home" className={navClass('/home')}>Home</Link>}
             {token ? (
               <>
                 <Link to="/simulation" className={navClass('/simulation')}>Simulation</Link>
@@ -196,12 +196,13 @@ export default function App(){
         <main className="max-w-6xl mx-auto p-6">
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Navigate to={token ? '/home' : '/login'} replace />} />
+            <Route path="/admin" element={token ? <Admin /> : <Navigate to="/login" replace />} />
+            <Route path="/home" element={token ? <Home /> : <Navigate to="/login" replace />} />
             <Route path="/feedback" element={<Feedback feedbacks={feedbacks} />} />
             <Route path="/phished" element={<Phished />} />
             <Route path="/safe-link" element={<SafeLink />} />
-            <Route path="/simulation" element={
+            <Route path="/simulation" element={token ? (
               <div className="rounded-2xl border border-rose-100 bg-gradient-to-br from-rose-50 via-amber-50 to-orange-50 p-4 sm:p-6 shadow-sm">
                 <div className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
                   <div className="bg-white/90 rounded-xl border border-rose-200 shadow-sm p-4">
@@ -280,7 +281,7 @@ export default function App(){
                   </div>
                 )}
               </div>
-            } />
+            ) : <Navigate to="/login" replace />} />
           </Routes>
         </main>
       )}

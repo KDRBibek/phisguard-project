@@ -26,7 +26,7 @@ export default function Login(){
         localStorage.setItem('role', j.role || 'user')
         localStorage.setItem('token', j.token)
         localStorage.setItem('displayName', j.name || name.trim())
-        nav('/')
+        nav('/home')
       }else{
         if((j.error || '').toLowerCase().includes('name')){
           setError('Please enter your name')
