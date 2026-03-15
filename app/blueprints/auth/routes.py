@@ -17,11 +17,8 @@ def _normalize_name(value):
 
 def _get_or_create_user(role, name=None):
     safe_name = _normalize_name(name)
-    if safe_name:
-        slug = safe_name.lower().replace(' ', '-')
-        user_id = f"{role}-{slug}-{str(uuid.uuid4())[:6]}"
-    else:
-        user_id = f"{role}-{str(uuid.uuid4())[:8]}"
+    _ = safe_name  # Name is validated but not persisted in identifiers.
+    user_id = f"{role}-{str(uuid.uuid4())[:8]}"
     user = User(id=user_id, role=role)
     db.session.add(user)
     db.session.commit()
@@ -49,7 +46,7 @@ def api_login():
         user = _get_or_create_user('user', name=name)
         login_user(user)
         token = issue_token('user', user.id)
-        return jsonify({'ok': True, 'token': token, 'role': 'user', 'user_id': user.id, 'name': name})
+        return jsonify({'ok': True, 'token': token, 'role': 'user', 'user_id': user.id})
     return jsonify({'ok': False, 'error': 'invalid user password'}), 403
 
 

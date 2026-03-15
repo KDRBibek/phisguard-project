@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Feedback({feedbacks = []}){
   const total = feedbacks.length
@@ -25,6 +26,15 @@ export default function Feedback({feedbacks = []}){
         </div>
 
         <p className="mt-2 text-sm text-slate-600">This page shows what you did, what was right or wrong, and how to improve next time.</p>
+
+        <div className="mt-4">
+          <Link
+            to="/simulation"
+            className="inline-flex items-center rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+          >
+            Back to Simulation
+          </Link>
+        </div>
 
         <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
@@ -77,6 +87,15 @@ export default function Feedback({feedbacks = []}){
                 <div className="mt-3 text-xs text-slate-500">{channelLabel(item.channel)} • {new Date(item.created_at).toLocaleString()}</div>
               </div>
             ))}
+
+            <div className="pt-2">
+              <Link
+                to="/simulation"
+                className="inline-flex items-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              >
+                Back to Simulation
+              </Link>
+            </div>
           </div>
         )}
       </div>

@@ -25,7 +25,6 @@ export default function Login(){
         localStorage.setItem('adminToken', j.token)
         localStorage.setItem('role', j.role || 'user')
         localStorage.setItem('token', j.token)
-        localStorage.setItem('displayName', j.name || name.trim())
         nav('/home')
       }else{
         if((j.error || '').toLowerCase().includes('name')){
@@ -80,9 +79,22 @@ export default function Login(){
             <p className="mt-2 text-sm text-slate-300">For administrators only.</p>
 
             <form onSubmit={submitAdmin} className="mt-5 space-y-4">
-              <input type="password" className="w-full p-3 rounded-lg bg-slate-900 border border-slate-700 text-white placeholder:text-slate-500 focus:ring-2 focus:ring-slate-500" placeholder="Admin password" value={adminPassword} onChange={e=>setAdminPassword(e.target.value)} />
+              <div>
+                <label htmlFor="admin-password" className="block text-sm font-medium text-slate-200 mb-1">Admin password</label>
+                <input
+                  id="admin-password"
+                  type="password"
+                  autoComplete="current-password"
+                  className="w-full p-3 rounded-lg bg-slate-900 border border-slate-700 text-white placeholder:text-slate-500 focus:ring-2 focus:ring-slate-500"
+                  placeholder="Enter admin password"
+                  value={adminPassword}
+                  onChange={e=>setAdminPassword(e.target.value)}
+                  aria-invalid={Boolean(adminError)}
+                  aria-describedby={adminError ? 'admin-login-error' : undefined}
+                />
+              </div>
               <button className="w-full px-4 py-2 bg-white text-slate-900 rounded-lg font-semibold">Admin log in</button>
-              {adminError && <div className="text-rose-300 text-sm">{adminError}</div>}
+              {adminError && <div id="admin-login-error" role="alert" className="text-rose-300 text-sm">{adminError}</div>}
             </form>
           </div>
         )}
@@ -100,13 +112,39 @@ export default function Login(){
               </div>
 
               <form onSubmit={submit} className="mt-6 space-y-4">
-                <input type="text" className="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-slate-400" placeholder="Your name" value={name} onChange={e=>setName(e.target.value)} />
-                <input type="password" className="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-slate-400" placeholder="User password" value={password} onChange={e=>setPassword(e.target.value)} />
+                <div>
+                  <label htmlFor="user-name" className="block text-sm font-medium text-slate-700 mb-1">Name</label>
+                  <input
+                    id="user-name"
+                    type="text"
+                    autoComplete="name"
+                    className="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-slate-400"
+                    placeholder="Enter your name"
+                    value={name}
+                    onChange={e=>setName(e.target.value)}
+                    aria-invalid={Boolean(error)}
+                    aria-describedby={error ? 'user-login-error user-login-help' : 'user-login-help'}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="user-password" className="block text-sm font-medium text-slate-700 mb-1">Password</label>
+                  <input
+                    id="user-password"
+                    type="password"
+                    autoComplete="current-password"
+                    className="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-slate-400"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={e=>setPassword(e.target.value)}
+                    aria-invalid={Boolean(error)}
+                    aria-describedby={error ? 'user-login-error user-login-help' : 'user-login-help'}
+                  />
+                </div>
                 <div className="flex items-center justify-between">
                   <button className="px-4 py-2 bg-slate-900 text-white rounded-lg shadow">Log in</button>
-                  <span className="text-sm text-slate-500">Default password: <strong>user</strong></span>
+                  <span id="user-login-help" className="text-sm text-slate-500">Default password: <strong>user</strong></span>
                 </div>
-                {error && <div className="text-red-600 text-sm">{error}</div>}
+                {error && <div id="user-login-error" role="alert" className="text-red-600 text-sm">{error}</div>}
               </form>
           </div>
         </div>

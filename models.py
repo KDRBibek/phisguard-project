@@ -8,6 +8,7 @@ from app.models import (
     CampaignTarget,
     UserAction,
     SmsAction,
+    DetectionResult,
 )
 
 __all__ = [
@@ -20,4 +21,5 @@ __all__ = [
     'CampaignTarget',
     'UserAction',
     'SmsAction',
+    'DetectionResult',
 ]

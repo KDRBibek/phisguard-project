@@ -87,6 +87,61 @@ Records that the user opened/viewed the email (useful for tracking opens/views).
 Response: 200 OK
 { /* email object */ }
 
+### POST /api/detector/analyze-email
+Runs detector analysis for an email scenario or raw email content.
+
+Request JSON (scenario):
+{
+  "email_id": 1
+}
+
+Request JSON (raw content):
+{
+  "sender": "Security Team <alerts@example.com>",
+  "subject": "Action required",
+  "body": "...",
+  "link_url": "https://example.com/login"
+}
+
+Response: 200 OK
+{
+  "analysis_id": 42,
+  "message_ref_id": 1,
+  "risk_score": 78,
+  "verdict": "phishing",
+  "reasons": [
+    "Uses urgency or deadline language to pressure fast action.",
+    "Sender domain does not match the linked destination domain."
+  ]
+}
+
+### POST /api/detector/analyze-sms
+Runs detector analysis for an SMS scenario or raw SMS content.
+
+Request JSON (scenario):
+{
+  "message_id": 3
+}
+
+Request JSON (raw content):
+{
+  "sender": "Bank Alerts",
+  "body": "Alert: verify now...",
+  "link_url": "http://example.invalid/verify"
+}
+
+Response: 200 OK
+{
+  "analysis_id": 43,
+  "message_ref_id": 3,
+  "risk_score": 84,
+  "verdict": "phishing",
+  "reasons": [
+    "Requests login, password, OTP, or other sensitive account details.",
+    "Uses an insecure http link instead of https."
+  ]
+}
+
 ---
 
 Notes

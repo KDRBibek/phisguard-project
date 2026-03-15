@@ -1,11 +1,12 @@
 from app.extensions import db
+from app.security import EncryptedString
 
 
 class Target(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False)
-    email = db.Column(db.String(200), nullable=False)
-    department = db.Column(db.String(120), nullable=True)
+    name = db.Column(EncryptedString(255), nullable=False)
+    email = db.Column(EncryptedString(255), nullable=False)
+    department = db.Column(EncryptedString(255), nullable=True)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
     def to_dict(self):

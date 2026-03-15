@@ -23,15 +23,29 @@ export default function App(){
   const [selectedSms, setSelectedSms] = useState(null)
   const [simTab, setSimTab] = useState('email')
   const [smsMessages, setSmsMessages] = useState([])
+  const [globalError, setGlobalError] = useState(null)
+
+  function showGlobalError(message, onRetry){
+    setGlobalError({ message, onRetry: onRetry || null })
+  }
+
+  function clearGlobalError(){
+    setGlobalError(null)
+  }
 
   async function loadEmails(){
     try{
       const r = await fetch('/api/emails')
+      if(!r.ok) throw new Error('Failed to load emails')
       const data = await r.json()
       setEmails(data)
+      clearGlobalError()
 
       // removed auto-generation to keep a fixed inbox size
-    }catch(e){ setEmails([]) }
+    }catch(e){
+      setEmails([])
+      showGlobalError('Could not load email scenarios. Please retry.', loadEmails)
+    }
   }
 
   useEffect(()=>{ loadEmails() }, [])
@@ -39,9 +53,14 @@ export default function App(){
   async function loadSms(){
     try{
       const r = await fetch('/api/sms')
+      if(!r.ok) throw new Error('Failed to load sms')
       const data = await r.json()
       setSmsMessages(data)
-    }catch(e){ setSmsMessages([]) }
+      clearGlobalError()
+    }catch(e){
+      setSmsMessages([])
+      showGlobalError('Could not load SMS scenarios. Please retry.', loadSms)
+    }
   }
 
   useEffect(()=>{ loadSms() }, [])
@@ -187,6 +206,28 @@ export default function App(){
         </div>
       </header>
 
+      {globalError && (
+        <div className="max-w-6xl mx-auto px-6 pt-4" role="alert" aria-live="polite">
+          <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 flex items-center justify-between gap-3">
+            <div className="text-sm text-amber-900">{globalError.message}</div>
+            <div className="flex items-center gap-2 shrink-0">
+              {globalError.onRetry && (
+                <button
+                  onClick={async ()=>{
+                    clearGlobalError()
+                    await globalError.onRetry()
+                  }}
+                  className="px-3 py-1.5 rounded-lg border border-amber-500 text-amber-900 text-sm font-medium hover:bg-amber-100"
+                >
+                  Retry
+                </button>
+              )}
+              <button onClick={clearGlobalError} className="px-3 py-1.5 rounded-lg text-sm text-amber-900 hover:bg-amber-100">Dismiss</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {isFullBleed ? (
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -251,8 +292,17 @@ export default function App(){
                       <EmailList emails={emails} onSelect={async (e)=>{
                         if(e && e.id){
                           const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
-                          await fetch(`/api/emails/${e.id}/open`, { method:'POST', headers:{'Content-Type':'application/json','X-Token': token}, body: JSON.stringify({}) }).catch(()=>{})
-                          fetch(`/api/emails/${e.id}`).then(r=>r.json()).then(setSelected)
+                          try{
+                            const opened = await fetch(`/api/emails/${e.id}/open`, { method:'POST', headers:{'Content-Type':'application/json','X-Token': token}, body: JSON.stringify({}) })
+                            if(!opened.ok) throw new Error('Failed to open selected email')
+                            const details = await fetch(`/api/emails/${e.id}`)
+                            if(!details.ok) throw new Error('Failed to load selected email')
+                            const data = await details.json()
+                            setSelected(data)
+                            clearGlobalError()
+                          }catch(err){
+                            showGlobalError('Could not open this email. Please try again.', loadEmails)
+                          }
                         }
                       }} selectedId={selected?.id} />
                     </aside>
@@ -269,9 +319,17 @@ export default function App(){
                       <SmsList messages={smsMessages} onSelect={async (m)=>{
                         if(m && m.id){
                           const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
-                          await fetch(`/api/sms/${m.id}/open`, { method:'POST', headers:{'Content-Type':'application/json','X-Token': token}, body: JSON.stringify({}) }).catch(()=>{})
-                          const selected = await fetch(`/api/sms`).then(r=>r.json()).then(list=> list.find(item=>item.id===m.id))
-                          setSelectedSms(selected || m)
+                          try{
+                            const opened = await fetch(`/api/sms/${m.id}/open`, { method:'POST', headers:{'Content-Type':'application/json','X-Token': token}, body: JSON.stringify({}) })
+                            if(!opened.ok) throw new Error('Failed to open selected sms')
+                            const selected = await fetch(`/api/sms`)
+                            if(!selected.ok) throw new Error('Failed to load selected sms')
+                            const list = await selected.json()
+                            setSelectedSms(list.find(item=>item.id===m.id) || m)
+                            clearGlobalError()
+                          }catch(err){
+                            showGlobalError('Could not open this SMS. Please try again.', loadSms)
+                          }
                         }
                       }} selectedId={selectedSms?.id} />
                     </aside>

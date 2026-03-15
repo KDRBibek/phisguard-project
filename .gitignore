@@ -21,6 +21,19 @@ ENV/
 # Flask
 instance/
 
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Secrets and keys
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+*.secret
+
 # Logs
 *.log
 

@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify, request, render_template
 from app.extensions import db
-from app.models import Email, UserAction, SmsAction
+from app.models import Email, UserAction, SmsAction, DetectionResult
 from app.services.auth_store import extract_token, get_user_id_from_token
+from app.services.detector import analyze_email, analyze_sms
 from app.blueprints.simulate.services import (
     update_campaign_target,
     compute_email_time_to_action_seconds,
@@ -9,6 +10,7 @@ from app.blueprints.simulate.services import (
     load_sms_messages,
     generate_dummy_emails,
 )
+import json
 
 bp = Blueprint('simulate', __name__)
 
@@ -129,6 +131,117 @@ def _get_message_or_404(message_id):
     messages = load_sms_messages()
     message = next((m for m in messages if m['id'] == message_id), None)
     return message
+
+
+def _save_detection_result(channel, payload, result, user_id):
+    record = DetectionResult(
+        channel=channel,
+        message_ref_id=payload.get('message_ref_id'),
+        sender=(payload.get('sender') or '')[:255],
+        subject=(payload.get('subject') or '')[:255],
+        body=payload.get('body') or '',
+        link_url=(payload.get('link_url') or '')[:500],
+        risk_score=int(result.get('risk_score', 0)),
+        verdict=result.get('verdict') or 'safe',
+        reasons=json.dumps(result.get('reasons') or []),
+        user_id=user_id,
+    )
+    db.session.add(record)
+    db.session.commit()
+    return record
+
+
+@bp.route('/api/detector/analyze-email', methods=['POST'])
+def api_detector_analyze_email():
+    data = request.get_json() or {}
+    token = extract_token(request) or data.get('token')
+    user_id = get_user_id_from_token(token)
+
+    email_id = data.get('email_id')
+    payload = {
+        'sender': data.get('sender') or '',
+        'subject': data.get('subject') or '',
+        'body': data.get('body') or '',
+        'link_url': data.get('link_url') or '',
+        'message_ref_id': None,
+    }
+
+    if email_id is not None:
+        try:
+            email_id = int(email_id)
+        except (TypeError, ValueError):
+            return jsonify({'error': 'invalid email_id'}), 400
+        email = db.session.get(Email, email_id)
+        if not email:
+            return jsonify({'error': 'email not found'}), 404
+        payload = {
+            'sender': email.sender,
+            'subject': email.subject,
+            'body': email.body,
+            'link_url': email.link_url,
+            'message_ref_id': email.id,
+        }
+    elif not payload['body']:
+        return jsonify({'error': 'missing email content'}), 400
+
+    result = analyze_email(
+        sender=payload['sender'],
+        subject=payload['subject'],
+        body=payload['body'],
+        link_url=payload['link_url'],
+    )
+    saved = _save_detection_result('email', payload, result, user_id)
+    return jsonify({
+        **result,
+        'analysis_id': saved.id,
+        'message_ref_id': payload.get('message_ref_id'),
+    })
+
+
+@bp.route('/api/detector/analyze-sms', methods=['POST'])
+def api_detector_analyze_sms():
+    data = request.get_json() or {}
+    token = extract_token(request) or data.get('token')
+    user_id = get_user_id_from_token(token)
+
+    message_id = data.get('message_id')
+    payload = {
+        'sender': data.get('sender') or '',
+        'subject': 'SMS',
+        'body': data.get('body') or '',
+        'link_url': data.get('link_url') or '',
+        'message_ref_id': None,
+    }
+
+    if message_id is not None:
+        try:
+            message_id = int(message_id)
+        except (TypeError, ValueError):
+            return jsonify({'error': 'invalid message_id'}), 400
+        message = _get_message_or_404(message_id)
+        if not message:
+            return jsonify({'error': 'sms not found'}), 404
+        payload = {
+            'sender': message.get('sender') or '',
+            'subject': 'SMS',
+            'body': message.get('body') or '',
+            'link_url': message.get('link_url') or '',
+            'message_ref_id': message.get('id'),
+        }
+    elif not payload['body']:
+        return jsonify({'error': 'missing sms content'}), 400
+
+    result = analyze_sms(
+        sender=payload['sender'],
+        body=payload['body'],
+        link_url=payload['link_url'],
+    )
+    saved = _save_detection_result('sms', payload, result, user_id)
+    return jsonify({
+        **result,
+        'analysis_id': saved.id,
+        'message_ref_id': payload.get('message_ref_id'),
+    })
 
 
 @bp.route('/api/sms/<int:message_id>/open', methods=['POST'])
