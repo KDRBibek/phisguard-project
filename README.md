@@ -98,6 +98,22 @@ Assumptions & Limits
 - Local development only; no production hardening (rate limits, hardened auth) is included.
 - User feedback history is stored in the browser (localStorage) unless you extend the backend.
 
+Outbound Email (optional)
+
+PHISGUARD can optionally send real outbound simulation emails via SMTP when dispatching campaigns.
+
+Set these environment variables:
+- SMTP_HOST
+- SMTP_PORT (use `587` for STARTTLS, `465` for implicit TLS)
+- SMTP_USERNAME (optional)
+- SMTP_PASSWORD (optional)
+- SMTP_FROM_EMAIL
+
+Behavior:
+- Subjects are prefixed with `[SIMULATION]`.
+- Links in outbound emails are safe and point back to the app (e.g. `/l/<email_id>`), which records a click and redirects to `/phished` or `/safe-link`.
+- If SMTP is not configured (or sending fails), campaigns still run as in-app simulations and tracking continues.
+
 Resources / Environment
 - Python 3.10+ with Flask + SQLAlchemy
 - Node.js 18+ for the React frontend

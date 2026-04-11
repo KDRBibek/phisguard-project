@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from flask import Flask
 from app.config import Config
 from app.extensions import db, login_manager
-from app.models import User
+from app.models import Email, User
 from app.blueprints.auth.routes import bp as auth_bp
 from app.blueprints.simulate.routes import bp as simulate_bp
 from app.blueprints.admin.routes import bp as admin_bp
@@ -15,6 +15,8 @@ from app.blueprints.simulate.services import (
     ensure_email_campaign_columns,
     ensure_email_difficulty_column,
     ensure_template_difficulty_column,
+    ensure_target_role_column,
+    ensure_campaign_extended_columns,
 )
 
 
@@ -26,8 +28,10 @@ def create_app(config_class=Config):
     app = Flask(__name__, template_folder=template_dir)
     app.config.from_object(config_class)
 
+
     db.init_app(app)
     login_manager.init_app(app)
+
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -41,7 +45,8 @@ def create_app(config_class=Config):
     with app.app_context():
         db.create_all()
         try:
-            seed_emails()
+            if Email.query.count() == 0:
+                seed_emails()
         except Exception:
             pass
         ensure_user_action_user_id_column()
@@ -49,5 +54,7 @@ def create_app(config_class=Config):
         ensure_email_campaign_columns()
         ensure_email_difficulty_column()
         ensure_template_difficulty_column()
+        ensure_target_role_column()
+        ensure_campaign_extended_columns()
 
     return app

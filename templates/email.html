@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
 </head>
 <body>
-  <a href="{{ url_for('inbox') }}">← Back to Inbox</a>
+  <a href="{{ url_for('simulate.inbox') }}">← Back to Inbox</a>
 
   <h2>{{ email.subject }}</h2>
   <p><strong>From:</strong> {{ email.sender }}</p>
@@ -16,9 +16,9 @@
 
 
   <div style="margin:14px 0;">
-    <a href="{{ url_for('click_email', email_id=email.id) }}">{{ email.link_text }}</a>
+    <a href="{{ url_for('simulate.click_email', email_id=email.id) }}">{{ email.link_text }}</a>
     &nbsp;|&nbsp;
-    <a href="{{ url_for('report_email', email_id=email.id) }}">Report as phishing</a>
+    <a href="{{ url_for('simulate.report_email', email_id=email.id) }}">Report as phishing</a>
   </div>
 
   <hr>

@@ -29,15 +29,7 @@ export default function EmailView({email, onRefresh, onFeedback}){
   const [saved, setSaved] = useState(false)
   const [lastAction, setLastAction] = useState(null)
   const [lastResult, setLastResult] = useState(null)
-  const [analysis, setAnalysis] = useState(null)
-  const [analyzing, setAnalyzing] = useState(false)
-  const [analysisError, setAnalysisError] = useState('')
   const navigate = useNavigate()
-
-  React.useEffect(()=>{
-    setAnalysis(null)
-    setAnalysisError('')
-  }, [email?.id])
 
   function handleActionResult(res, action){
     setSaved(true)
@@ -64,30 +56,6 @@ export default function EmailView({email, onRefresh, onFeedback}){
     }
     const target = `/safe-link?channel=Email&url=${encodeURIComponent(email.link_url || '')}`
     window.open(target, '_blank', 'noopener,noreferrer')
-  }
-
-  async function runAnalysis(){
-    if(!email?.id) return
-    setAnalyzing(true)
-    setAnalysisError('')
-    try{
-      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
-      const res = await fetch('/api/detector/analyze-email', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json', 'X-Token': token},
-        body: JSON.stringify({email_id: email.id}),
-      })
-      const json = await res.json()
-      if(!res.ok){
-        setAnalysisError(json?.error || 'Could not analyze this email right now.')
-        return
-      }
-      setAnalysis(json)
-    }catch(err){
-      setAnalysisError('Could not analyze this email right now.')
-    }finally{
-      setAnalyzing(false)
-    }
   }
 
   if(!email) return <div className="p-6 bg-white rounded-xl shadow">Select an email to view</div>
@@ -122,38 +90,9 @@ export default function EmailView({email, onRefresh, onFeedback}){
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex flex-wrap gap-3">
           <ActionButtons email={email} onActionResult={handleActionResult} />
-          <button onClick={runAnalysis} disabled={analyzing} className="px-4 py-2 bg-slate-900 text-white rounded-md disabled:opacity-60">
-            {analyzing ? 'Analyzing...' : 'Analyze Email'}
-          </button>
         </div>
         <div className="text-sm text-slate-500">Link: <button onClick={openDirectLink} className="text-slate-900 underline">{email.link_url}</button></div>
       </div>
-
-      {analysisError && (
-        <div className="mt-3 text-sm text-rose-700 bg-rose-50 border border-rose-200 rounded-lg p-3">{analysisError}</div>
-      )}
-
-      {analysis && (
-        <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <div className="text-sm font-semibold text-slate-900">Detector verdict: <span className="uppercase">{analysis.verdict}</span></div>
-              <div className="text-xs text-slate-500 mt-1">Risk score: {analysis.risk_score}/100</div>
-            </div>
-            <span className={"px-3 py-1 rounded-full text-xs font-semibold " + (analysis.verdict === 'phishing' ? 'bg-rose-100 text-rose-800' : analysis.verdict === 'suspicious' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800')}>
-              {analysis.verdict}
-            </span>
-          </div>
-          <div className="mt-3 h-2 rounded-full bg-slate-200 overflow-hidden">
-            <div className={"h-full " + (analysis.risk_score >= 70 ? 'bg-rose-600' : analysis.risk_score >= 40 ? 'bg-amber-500' : 'bg-emerald-600')} style={{width: `${Math.max(0, Math.min(100, analysis.risk_score || 0))}%`}} />
-          </div>
-          <ul className="mt-3 list-disc ml-5 text-sm text-slate-700 space-y-1">
-            {(analysis.reasons || []).map((reason, idx)=>(
-              <li key={`email-reason-${idx}`}>{reason}</li>
-            ))}
-          </ul>
-        </div>
-      )}
 
       {saved && (
         <div className="mt-3 text-sm text-emerald-600">Saved to feedback summary.</div>

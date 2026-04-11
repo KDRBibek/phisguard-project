@@ -173,12 +173,67 @@ Request JSON:
 ### DELETE /api/templates/:id
 Delete template.
 
+### GET /api/analytics
+Legacy analytics overview endpoint (admin).
+
+Response: 200 OK
+{ ...advanced metrics... }
+
+### GET /api/admin/analytics/overview
+Structured analytics overview endpoint (admin).
+
+### GET /api/admin/analytics/email
+Structured email analytics metrics (admin).
+
+### GET /api/admin/analytics/sms
+Structured SMS analytics metrics (admin).
+
+### GET /api/admin/analytics/users/email
+Structured per-user email performance report (admin).
+
+### GET /api/admin/analytics/users/sms
+Structured per-user SMS performance report (admin).
+
+### GET /api/admin/activity/email-actions
+Structured recent email action feed (admin).
+
+### GET /api/admin/activity/sms-actions
+Structured recent SMS action feed (admin).
+
+### POST /api/admin/activity/clear-user
+Structured endpoint to clear user email actions (admin).
+
+Request JSON:
+{
+  "user_id": "string"
+}
+
+Response: 200 OK
+{ "ok": true }
+
+Response: 400 Bad Request
+{ "error": "missing user_id" }
+
+---
+
+Legacy compatibility:
+- GET /api/analytics maps to overview analytics.
+
+### GET /api/actions
+Legacy endpoint remains supported and maps to email activity feed.
+
+### GET /api/sms/actions
+Legacy endpoint remains supported and maps to SMS activity feed.
+
+### POST /api/actions/clear_user
+Legacy endpoint remains supported and maps to clear-user activity action.
+
 ---
 
 ## Admin: Targets (Simulated Users)
 
 ### GET /api/targets
-List targets.
+    {"name": "string", "email": "string", "department": "string", "role": "string"}
 
 ### POST /api/targets
 Create one or many targets.
@@ -201,19 +256,56 @@ Delete target.
 List campaigns with summary counts.
 
 ### POST /api/campaigns
-Create a campaign and generate simulated emails for each target.
+Create a campaign in one of these states: `draft`, `scheduled`, `active`.
+
+Behavior:
+- `draft`: campaign is created, no emails dispatched yet.
+- `scheduled`: campaign is created for future dispatch (`scheduled_at` required).
+- `active`: campaign dispatches immediately.
+- If a scheduled time is already in the past, the campaign is activated immediately.
+
+Target selection behavior:
+- Use explicit `target_ids`, or
+- Use segmentation filters: `segment_department` and/or `segment_role`.
+
+Historical preservation behavior:
+- The campaign stores a template content snapshot at creation.
+- Later changes to the original template do not affect existing campaign email content.
 
 Request JSON:
 {
   "name": "string",
   "template_id": 1,
   "target_ids": [1,2,3],
-  "status": "active",
+  "state": "draft|scheduled|active",
+  "scheduled_at": "2026-04-11T18:30:00",
+  "segment_department": "Finance",
+  "segment_role": "Manager",
   "notes": "string"
 }
 
 ### GET /api/campaigns/:id/metrics
 Campaign-level metrics.
+
+### POST /api/campaigns/:id/schedule
+Set/Update schedule and move campaign to `scheduled` (or auto-activate if schedule is now/past).
+
+Request JSON:
+{
+  "scheduled_at": "2026-04-12T09:00:00"
+}
+
+### POST /api/campaigns/:id/activate
+Transition campaign to `active` and dispatch if not already dispatched.
+
+### POST /api/campaigns/:id/complete
+Transition campaign to `completed`.
+
+### POST /api/campaigns/:id/archive
+Transition campaign to `archived`.
+
+### POST /api/campaigns/auto_activate
+Activate all scheduled campaigns whose schedule time has passed.
 
 ### DELETE /api/campaigns/:id
 Delete campaign and related simulated emails.

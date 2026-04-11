@@ -432,3 +432,43 @@ def ensure_template_difficulty_column():
         db.session.commit()
     except Exception:
         db.session.rollback()
+
+
+def ensure_target_role_column():
+    try:
+        rows = db.session.execute(text("PRAGMA table_info(target)")).fetchall()
+        cols = {r[1] for r in rows}
+        if 'role' not in cols:
+            db.session.execute(text("ALTER TABLE target ADD COLUMN role VARCHAR(100)"))
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+
+
+def ensure_campaign_extended_columns():
+    try:
+        rows = db.session.execute(text("PRAGMA table_info(campaign)")).fetchall()
+        cols = {r[1] for r in rows}
+        if 'segment_department' not in cols:
+            db.session.execute(text("ALTER TABLE campaign ADD COLUMN segment_department VARCHAR(120)"))
+        if 'segment_role' not in cols:
+            db.session.execute(text("ALTER TABLE campaign ADD COLUMN segment_role VARCHAR(120)"))
+        if 'snapshot_sender' not in cols:
+            db.session.execute(text("ALTER TABLE campaign ADD COLUMN snapshot_sender VARCHAR(100)"))
+        if 'snapshot_subject' not in cols:
+            db.session.execute(text("ALTER TABLE campaign ADD COLUMN snapshot_subject VARCHAR(200)"))
+        if 'snapshot_body' not in cols:
+            db.session.execute(text("ALTER TABLE campaign ADD COLUMN snapshot_body TEXT"))
+        if 'snapshot_link_text' not in cols:
+            db.session.execute(text("ALTER TABLE campaign ADD COLUMN snapshot_link_text VARCHAR(100)"))
+        if 'snapshot_link_url' not in cols:
+            db.session.execute(text("ALTER TABLE campaign ADD COLUMN snapshot_link_url VARCHAR(200)"))
+        if 'snapshot_feedback' not in cols:
+            db.session.execute(text("ALTER TABLE campaign ADD COLUMN snapshot_feedback TEXT"))
+        if 'snapshot_is_phishing' not in cols:
+            db.session.execute(text("ALTER TABLE campaign ADD COLUMN snapshot_is_phishing BOOLEAN"))
+        if 'snapshot_difficulty' not in cols:
+            db.session.execute(text("ALTER TABLE campaign ADD COLUMN snapshot_difficulty VARCHAR(20)"))
+        db.session.commit()
+    except Exception:
+        db.session.rollback()

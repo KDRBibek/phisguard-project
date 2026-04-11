@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify, request, render_template
+from flask import Blueprint, jsonify, request, render_template, redirect
+from urllib.parse import quote
 from app.extensions import db
 from app.models import Email, UserAction, SmsAction, DetectionResult
 from app.services.auth_store import extract_token, get_user_id_from_token
@@ -13,6 +14,28 @@ from app.blueprints.simulate.services import (
 import json
 
 bp = Blueprint('simulate', __name__)
+
+
+@bp.route('/l/<int:email_id>', methods=['GET'])
+def link_redirect(email_id):
+    """Safe tracking link for outbound simulation emails.
+
+    Records a click (without requiring an auth token) and redirects to an
+    in-app safe page so recipients never go to an external URL.
+    """
+
+    email = db.get_or_404(Email, email_id)
+    db.session.add(UserAction(email_id=email_id, action='clicked', user_id=None))
+    update_campaign_target(email_id, 'clicked')
+    db.session.commit()
+
+    if email.is_phishing:
+        return redirect('/phished')
+
+    safe_url = '/safe-link'
+    if email.link_url:
+        safe_url = f"/safe-link?channel=Email&url={quote(str(email.link_url), safe='')}"
+    return redirect(safe_url)
 
 
 @bp.route('/api/generate_emails', methods=['POST'])
