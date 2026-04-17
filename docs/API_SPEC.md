@@ -7,6 +7,7 @@ Base URL (development): `http://127.0.0.1:5000`
 ## Authentication
 - User login: POST /api/login (role user/admin) returns token.
 - Admin endpoints require X-Admin-Token or Authorization: Bearer <token>.
+- User-scoped endpoints (for simulation history) accept X-Token or Authorization: Bearer <token>.
 
 ## Endpoints
 
@@ -64,6 +65,56 @@ Response: 200 OK
 Records a report action and returns feedback JSON.
 
 Response: 200 OK
+
+### GET /api/feedback
+Returns the logged-in user's combined feedback history (email + SMS), newest first.
+
+Headers:
+- X-Token: <user token>
+
+Response: 200 OK
+[
+  {
+    "item_id": 1,
+    "channel": "email",
+    "subject": "Action Required: ...",
+    "sender": "Security Team",
+    "action": "click",
+    "correct": false,
+    "message": "You clicked a phishing link...",
+    "tip": "Check sender and links...",
+    "time_to_action_seconds": 8.2,
+    "created_at": "2026-04-17T10:30:00"
+  }
+]
+
+Response: 401 Unauthorized
+{ "error": "unauthorized" }
+
+### POST /api/feedback/reset
+Clears the logged-in user's simulation actions/feedback history.
+
+Headers:
+- X-Token: <user token>
+
+Response: 200 OK
+{ "ok": true }
+
+Response: 401 Unauthorized
+{ "error": "unauthorized" }
+
+### GET /api/awareness
+Returns awareness accuracy for the logged-in user only.
+
+Headers:
+- X-Token: <user token>
+
+Response: 200 OK
+{
+  "total_checked": 12,
+  "correct": 9,
+  "accuracy_percent": 75.0
+}
 
 ### GET /api/actions
 List recorded `UserAction` events (admin).

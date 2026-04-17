@@ -16,6 +16,128 @@ import json
 bp = Blueprint('simulate', __name__)
 
 
+def _email_result_payload(email, action, time_to_action_seconds):
+    if action == 'click':
+        if email.is_phishing:
+            return {
+                'correct': False,
+                'message': 'You clicked a phishing link. In real life this could steal credentials or install malware.',
+                'tip': email.feedback or 'Check the sender and hover over links before clicking.',
+                'time_to_action_seconds': time_to_action_seconds,
+            }
+        return {
+            'correct': True,
+            'message': 'You clicked a legitimate link. Good job staying calm and checking context.',
+            'tip': email.feedback or 'Still verify domains and requests even if it looks normal.',
+            'time_to_action_seconds': time_to_action_seconds,
+        }
+
+    if email.is_phishing:
+        return {
+            'correct': True,
+            'message': 'Correct! You reported a phishing email.',
+            'tip': email.feedback or 'Reporting suspicious emails helps protect others.',
+            'time_to_action_seconds': time_to_action_seconds,
+        }
+    return {
+        'correct': False,
+        'message': 'This email was legitimate, so reporting it was not needed.',
+        'tip': 'Check for urgency, mismatched domains, and requests for credentials before reporting.',
+        'time_to_action_seconds': time_to_action_seconds,
+    }
+
+
+def _sms_result_payload(message, action, time_to_action_seconds):
+    if action == 'click':
+        correct = not message['is_phishing']
+        return {
+            'correct': correct,
+            'message': 'Correct. This SMS appears legitimate.' if correct else 'Incorrect. This was a phishing SMS.',
+            'tip': message.get('feedback') or '',
+            'time_to_action_seconds': time_to_action_seconds,
+        }
+
+    correct = message['is_phishing']
+    return {
+        'correct': correct,
+        'message': 'Correct. You reported a phishing SMS.' if correct else 'Incorrect. This SMS appears legitimate.',
+        'tip': message.get('feedback') or '',
+        'time_to_action_seconds': time_to_action_seconds,
+    }
+
+
+def _feedback_entry_from_email_action(action_row):
+    email = db.session.get(Email, action_row.email_id)
+    if not email:
+        return None
+    action_for_payload = 'click' if action_row.action == 'clicked' else 'report'
+    payload = _email_result_payload(email, action_for_payload, action_row.time_to_action_seconds)
+    return {
+        'item_id': email.id,
+        'channel': 'email',
+        'subject': email.subject,
+        'sender': email.sender,
+        'action': action_row.action,
+        'correct': payload['correct'],
+        'message': payload['message'],
+        'tip': payload.get('tip'),
+        'time_to_action_seconds': action_row.time_to_action_seconds,
+        'created_at': action_row.created_at.isoformat() if action_row.created_at else None,
+    }
+
+
+def _feedback_entry_from_sms_action(action_row):
+    message = _get_message_or_404(action_row.message_id)
+    if not message:
+        return None
+    action_for_payload = 'click' if action_row.action == 'clicked' else 'report'
+    payload = _sms_result_payload(message, action_for_payload, action_row.time_to_action_seconds)
+    return {
+        'item_id': message['id'],
+        'channel': 'sms',
+        'subject': message.get('subject') or f"SMS from {message.get('sender', '')}",
+        'sender': message.get('sender') or '',
+        'action': action_row.action,
+        'correct': payload['correct'],
+        'message': payload['message'],
+        'tip': payload.get('tip'),
+        'time_to_action_seconds': action_row.time_to_action_seconds,
+        'created_at': action_row.created_at.isoformat() if action_row.created_at else None,
+    }
+
+
+def _load_feedback_for_user(user_id):
+    if not user_id:
+        return []
+
+    items = []
+
+    email_actions = (
+        UserAction.query.filter_by(user_id=user_id)
+        .filter(UserAction.action.in_(['clicked', 'reported']))
+        .order_by(UserAction.created_at.desc(), UserAction.id.desc())
+        .all()
+    )
+    for row in email_actions:
+        entry = _feedback_entry_from_email_action(row)
+        if entry:
+            items.append(entry)
+
+    sms_actions = (
+        SmsAction.query.filter_by(user_id=user_id)
+        .filter(SmsAction.action.in_(['clicked', 'reported']))
+        .order_by(SmsAction.created_at.desc(), SmsAction.id.desc())
+        .all()
+    )
+    for row in sms_actions:
+        entry = _feedback_entry_from_sms_action(row)
+        if entry:
+            items.append(entry)
+
+    items.sort(key=lambda item: item.get('created_at') or '', reverse=True)
+    return items
+
+
 @bp.route('/l/<int:email_id>', methods=['GET'])
 def link_redirect(email_id):
     """Safe tracking link for outbound simulation emails.
@@ -51,7 +173,12 @@ def api_generate_emails():
 
 @bp.route('/api/awareness')
 def api_awareness():
-    actions = UserAction.query.filter(UserAction.action.in_(['clicked', 'reported'])).all()
+    token = extract_token(request)
+    user_id = get_user_id_from_token(token)
+    if not user_id:
+        return jsonify({'error': 'unauthorized'}), 401
+
+    actions = UserAction.query.filter_by(user_id=user_id).filter(UserAction.action.in_(['clicked', 'reported'])).all()
     total = 0
     correct = 0
     for a in actions:
@@ -69,6 +196,29 @@ def api_awareness():
 
     pct = (correct / total * 100) if total > 0 else None
     return jsonify({'total_checked': total, 'correct': correct, 'accuracy_percent': pct})
+
+
+@bp.route('/api/feedback', methods=['GET'])
+def api_feedback():
+    token = extract_token(request)
+    user_id = get_user_id_from_token(token)
+    if not user_id:
+        return jsonify({'error': 'unauthorized'}), 401
+
+    return jsonify(_load_feedback_for_user(user_id))
+
+
+@bp.route('/api/feedback/reset', methods=['POST'])
+def api_feedback_reset():
+    token = extract_token(request) or (request.get_json() or {}).get('token')
+    user_id = get_user_id_from_token(token)
+    if not user_id:
+        return jsonify({'error': 'unauthorized'}), 401
+
+    UserAction.query.filter_by(user_id=user_id).delete(synchronize_session=False)
+    SmsAction.query.filter_by(user_id=user_id).delete(synchronize_session=False)
+    db.session.commit()
+    return jsonify({'ok': True})
 
 
 @bp.route('/api/emails')
@@ -104,19 +254,7 @@ def api_click(email_id):
     update_campaign_target(email_id, 'clicked')
     db.session.commit()
 
-    if email.is_phishing:
-        return jsonify({
-            'correct': False,
-            'message': 'You clicked a phishing link. In real life this could steal credentials or install malware.',
-            'tip': email.feedback or 'Check the sender and hover over links before clicking.',
-            'time_to_action_seconds': time_to_action_seconds
-        })
-    return jsonify({
-        'correct': True,
-        'message': 'You clicked a legitimate link. Good job staying calm and checking context.',
-        'tip': email.feedback or 'Still verify domains and requests even if it looks normal.',
-        'time_to_action_seconds': time_to_action_seconds
-    })
+    return jsonify(_email_result_payload(email, 'click', time_to_action_seconds))
 
 
 @bp.route('/api/emails/<int:email_id>/report', methods=['POST'])
@@ -129,19 +267,7 @@ def api_report(email_id):
     update_campaign_target(email_id, 'reported')
     db.session.commit()
 
-    if email.is_phishing:
-        return jsonify({
-            'correct': True,
-            'message': 'Correct! You reported a phishing email.',
-            'tip': email.feedback or 'Reporting suspicious emails helps protect others.',
-            'time_to_action_seconds': time_to_action_seconds
-        })
-    return jsonify({
-        'correct': False,
-        'message': 'This email was legitimate, so reporting it was not needed.',
-        'tip': 'Check for urgency, mismatched domains, and requests for credentials before reporting.',
-        'time_to_action_seconds': time_to_action_seconds
-    })
+    return jsonify(_email_result_payload(email, 'report', time_to_action_seconds))
 
 
 @bp.route('/api/sms')
@@ -289,13 +415,7 @@ def api_sms_click(message_id):
     time_to_action_seconds = compute_sms_time_to_action_seconds(message_id, user_id)
     db.session.add(SmsAction(message_id=message_id, action='clicked', user_id=user_id, time_to_action_seconds=time_to_action_seconds))
     db.session.commit()
-    correct = not message['is_phishing']
-    result = {
-        'correct': correct,
-        'message': 'Correct. This SMS appears legitimate.' if correct else 'Incorrect. This was a phishing SMS.',
-        'tip': message.get('feedback') or '',
-        'time_to_action_seconds': time_to_action_seconds
-    }
+    result = _sms_result_payload(message, 'click', time_to_action_seconds)
     return jsonify(result)
 
 
@@ -309,13 +429,7 @@ def api_sms_report(message_id):
     time_to_action_seconds = compute_sms_time_to_action_seconds(message_id, user_id)
     db.session.add(SmsAction(message_id=message_id, action='reported', user_id=user_id, time_to_action_seconds=time_to_action_seconds))
     db.session.commit()
-    correct = message['is_phishing']
-    result = {
-        'correct': correct,
-        'message': 'Correct. You reported a phishing SMS.' if correct else 'Incorrect. This SMS appears legitimate.',
-        'tip': message.get('feedback') or '',
-        'time_to_action_seconds': time_to_action_seconds
-    }
+    result = _sms_result_payload(message, 'report', time_to_action_seconds)
     return jsonify(result)
 
 

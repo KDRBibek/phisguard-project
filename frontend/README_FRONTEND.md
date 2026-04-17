@@ -28,9 +28,9 @@ npm run preview
 
 Notes
 - This scaffold uses Tailwind CSS. To add `shadcn/ui` components you can run their setup inside this folder and wire components into `src/components`.
-- After building, the static files will appear in `frontend/dist` and `app.py` serves them at `/`.
+- After building, the static files will appear in `frontend/dist` and the Flask backend (started with `python run.py`) serves them at `/`.
 
 Feature Overview
 - Home: overview and feedback summary gating
 - Simulation: Email and SMS tabs with tips and safe feedback
-- Feedback: user feedback history (stored in browser localStorage)
+- Feedback: user feedback history (stored in the backend per user)

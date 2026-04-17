@@ -65,22 +65,35 @@ export default function App(){
 
   useEffect(()=>{ loadSms() }, [])
 
-  useEffect(()=>{
-    try{
-      const stored = JSON.parse(localStorage.getItem('feedbackLog') || '[]')
-      const storedEmailIds = JSON.parse(localStorage.getItem('attemptedEmailIds') || '[]')
-      const storedSmsIds = JSON.parse(localStorage.getItem('attemptedSmsIds') || '[]')
-      const legacyIds = JSON.parse(localStorage.getItem('attemptedIds') || '[]')
-      setFeedbacks(stored)
-      setAttemptedEmailIds(storedEmailIds.length ? storedEmailIds : legacyIds)
-      setAttemptedSmsIds(storedSmsIds)
-    }catch(e){ /* ignore */ }
-  }, [])
-
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
   const role = typeof window !== 'undefined' ? localStorage.getItem('role') : null
   const navigate = useNavigate()
   const location = useLocation()
+
+  async function loadFeedback(){
+    if(!token){
+      setFeedbacks([])
+      setAttemptedEmailIds([])
+      setAttemptedSmsIds([])
+      return
+    }
+    try{
+      const r = await fetch('/api/feedback', { headers: {'X-Token': token} })
+      if(!r.ok) throw new Error('Failed to load feedback')
+      const data = await r.json()
+      setFeedbacks(Array.isArray(data) ? data : [])
+      const emailIds = new Set()
+      const smsIds = new Set()
+      for(const entry of (Array.isArray(data) ? data : [])){
+        if((entry.channel || 'email') === 'sms') smsIds.add(entry.item_id)
+        else emailIds.add(entry.item_id)
+      }
+      setAttemptedEmailIds([...emailIds])
+      setAttemptedSmsIds([...smsIds])
+    }catch(e){
+      showGlobalError('Could not load feedback history. Please retry.', loadFeedback)
+    }
+  }
 
   const isActive = (path) => location.pathname === path
   const isAwareness = location.pathname === '/awareness'
@@ -97,6 +110,10 @@ export default function App(){
       navigate('/login')
     }
   }, [token, location.pathname, navigate])
+
+  useEffect(()=>{
+    loadFeedback()
+  }, [token])
 
   function logout(){
     if(typeof window !== 'undefined'){
@@ -127,36 +144,39 @@ export default function App(){
 
     setFeedbacks(prev=>{
       const filtered = prev.filter(f=>!(f.item_id === newItem.item_id && (f.channel || 'email') === newItem.channel))
-      const next = [newItem, ...filtered]
-      localStorage.setItem('feedbackLog', JSON.stringify(next))
-      return next
+      return [newItem, ...filtered]
     })
 
     if(channel === 'sms'){
       setAttemptedSmsIds(prev=>{
-        const next = prev.includes(itemId) ? prev : [...prev, itemId]
-        localStorage.setItem('attemptedSmsIds', JSON.stringify(next))
-        return next
+        return prev.includes(itemId) ? prev : [...prev, itemId]
       })
     }else{
       setAttemptedEmailIds(prev=>{
-        const next = prev.includes(itemId) ? prev : [...prev, itemId]
-        localStorage.setItem('attemptedEmailIds', JSON.stringify(next))
-        return next
+        return prev.includes(itemId) ? prev : [...prev, itemId]
       })
     }
   }
 
-  function resetSimulationProgress(){
+  async function resetSimulationProgress(){
+    const activeToken = typeof window !== 'undefined' ? localStorage.getItem('token') : null
+    if(activeToken){
+      try{
+        const r = await fetch('/api/feedback/reset', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json', 'X-Token': activeToken},
+          body: JSON.stringify({}),
+        })
+        if(!r.ok) throw new Error('Failed to reset')
+      }catch(e){
+        showGlobalError('Could not reset progress right now. Please retry.', resetSimulationProgress)
+        return
+      }
+    }
     setFeedbacks([])
     setAttemptedEmailIds([])
     setAttemptedSmsIds([])
-    if(typeof window !== 'undefined'){
-      localStorage.removeItem('feedbackLog')
-      localStorage.removeItem('attemptedEmailIds')
-      localStorage.removeItem('attemptedSmsIds')
-      localStorage.removeItem('attemptedIds')
-    }
+    clearGlobalError()
   }
 
   const emailIds = new Set(emails.map(e => e.id))

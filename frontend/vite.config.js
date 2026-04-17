@@ -12,9 +12,6 @@ export default defineConfig({
     }
   },
   preview: {
-    port: 5173,
-    proxy: {
-      '/api': apiProxy
-    }
+    port: 5001
   }
 })

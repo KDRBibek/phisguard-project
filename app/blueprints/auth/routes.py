@@ -1,4 +1,4 @@
-import uuid
+import re
 from flask import Blueprint, jsonify, request
 from flask_login import login_user, logout_user
 from app.extensions import db
@@ -15,10 +15,25 @@ def _normalize_name(value):
     return ''.join(ch for ch in name if ch.isalnum() or ch in ('-', '_', ' ')).strip()
 
 
+def _slugify_name(value):
+    cleaned = _normalize_name(value).lower()
+    slug = re.sub(r'\s+', '-', cleaned)
+    slug = re.sub(r'[^a-z0-9_-]', '', slug)
+    slug = slug.strip('-_')
+    return slug or 'user'
+
+
 def _get_or_create_user(role, name=None):
-    safe_name = _normalize_name(name)
-    _ = safe_name  # Name is validated but not persisted in identifiers.
-    user_id = f"{role}-{str(uuid.uuid4())[:8]}"
+    if role == 'admin':
+        user_id = 'admin'
+    else:
+        safe_name = _normalize_name(name)
+        user_id = f"user-{_slugify_name(safe_name)}"
+
+    existing = db.session.get(User, user_id)
+    if existing:
+        return existing
+
     user = User(id=user_id, role=role)
     db.session.add(user)
     db.session.commit()

@@ -5,7 +5,6 @@ PHISGUARD is a web-based phishing simulation and awareness tool. It provides saf
 Project Structure (high-level)
 - run.py: starts the Flask backend (app factory).
 - app/: Flask app package (blueprints, models, services).
-- models.py: legacy models (not used by app factory).
 - frontend/: React + Vite UI.
 - instance/: SQLite database (runtime data).
 - templates/: Flask-rendered fallback pages.
@@ -19,7 +18,7 @@ How It Works (frontend)
 - Home: overview + feedback summary gating.
 - Simulation: two tabs (Email and SMS) with separate inboxes and tips.
 - Awareness: structured awareness program (modules + timeline).
-- Feedback: user’s past results stored in browser localStorage.
+- Feedback: user’s past results loaded from backend per logged-in user.
 
 Email vs SMS
 - Email simulation data comes from seeded email records in the database.
@@ -27,7 +26,7 @@ Email vs SMS
 
 Key User Flows
 1) User logs in → Simulation → opens a message → clicks/report.
-2) Feedback is stored and shown in Feedback page.
+2) Feedback is stored by user ID in the backend and shown in Feedback page.
 3) After all Email + SMS are tested, summary unlocks on Home.
 
 Admin Flow
@@ -63,6 +62,47 @@ npm run dev
 
 Open the frontend at http://localhost:5173 — the frontend proxies `/api` to `http://127.0.0.1:5000`.
 
+PowerShell Run Guide (Teacher Demo)
+
+Use two PowerShell terminals.
+
+Terminal 1: Backend (Flask)
+
+```powershell
+Set-Location "c:\Users\luhag\phisguard project"
+.\.venv\Scripts\Activate
+python run.py
+```
+
+Expected:
+- Backend starts on `http://127.0.0.1:5000`
+
+Terminal 2: Frontend (React + Vite)
+
+```powershell
+Set-Location "c:\Users\luhag\phisguard project\frontend"
+npm install
+npm run dev
+```
+
+Expected:
+- Frontend starts on `http://localhost:5173`
+
+Open in browser:
+- Main app for demo: `http://localhost:5173`
+
+Login credentials for demonstration:
+- User password: `user` (name can be any non-empty value)
+- Admin password: `admin`
+
+If .env is configured, those values override defaults.
+
+Quick troubleshooting:
+- If backend fails to import app modules, make sure Terminal 1 is in `c:\Users\luhag\phisguard project`.
+- If frontend cannot load data, check Terminal 1 is running and reachable at `127.0.0.1:5000`.
+- If you see `401 unauthorized` after code changes, the backend may have auto-restarted (tokens are in-memory). Log in again.
+- If `npm run dev` exits, port `5173` may already be in use. Try `npm run dev -- --port 5174`.
+
 Build for production (so Flask can serve static files):
 
 ```powershell
@@ -96,7 +136,7 @@ Notes:
 Assumptions & Limits
 - This is a safe simulation tool; it does not send real emails or SMS.
 - Local development only; no production hardening (rate limits, hardened auth) is included.
-- User feedback history is stored in the browser (localStorage) unless you extend the backend.
+- Tokens are in-memory for local development; restarting the backend resets active sessions.
 
 Outbound Email (optional)
 

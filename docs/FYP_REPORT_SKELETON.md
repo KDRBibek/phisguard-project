@@ -175,6 +175,11 @@
 - More scenario packs and adaptive difficulty.
 - More analytics and instructor dashboard features.
 - Larger user study and longitudinal evaluation.
+- AI-powered scam detection + scenario generation (score messages for risk and help create new themed email/SMS examples).
+- Personalized training engine (adapt scenarios and difficulty to each user based on their mistakes over time).
+- Full enterprise platform version (multi-tenant org setup, teams/departments, role-based access, and reporting at scale).
+- Education platform version (classes/cohorts, assignments, instructor view, and student progress tracking).
+- Real-time threat awareness feed (live scam/phishing trends and alerts, updated regularly for training content).
 
 ## References
 - Use Harvard style consistently.
