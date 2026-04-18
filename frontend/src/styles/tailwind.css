@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-50 text-slate-800;
+}
+
+:root {
+  --ink: #0f1214;
+  --graphite: #1b2326;
+  --slate: #243038;
+  --mist: #c5d0d6;
+  --smoke: #8fa2ad;
+  --aqua: #62d1c2;
+  --ember: #f0745a;
+  --gold: #f2c97d;
+}
+
+.font-display {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-body {
+  font-family: 'Space Grotesk', 'Trebuchet MS', sans-serif;
+}
+
+.awareness-shell {
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.72)),
+    url('../assets/phi-image-1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: var(--slate);
+}
+
+.awareness-card {
+  background: rgba(18, 24, 28, 0.82);
+  border: 1px solid rgba(98, 209, 194, 0.12);
+  box-shadow: 0 30px 60px -45px rgba(0, 0, 0, 0.85);
+}
+
+.awareness-panel {
+  background: rgba(20, 27, 32, 0.85);
+  border: 1px solid rgba(98, 209, 194, 0.15);
+}
+
+.awareness-chip {
+  background: rgba(20, 30, 34, 0.7);
+  border: 1px solid rgba(98, 209, 194, 0.2);
+  color: var(--mist);
+}
+
+.awareness-subtle {
+  color: var(--smoke);
+}

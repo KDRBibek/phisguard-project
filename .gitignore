@@ -1,0 +1,123 @@
+# ========================
+# Python & Virtual Environments
+# ========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pytype/
+.nox/
+.tox/
+.venv/
+venv/
+ENV/
+*.egg
+
+# ========================
+# Environment Variables
+# ========================
+.env
+.env.*
+!.env.example
+
+# ========================
+# Flask-specific Directories
+# ========================
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# ========================
+# Database Files
+# ========================
+*.db
+*.sqlite
+*.sqlite3
+
+# ========================
+# Secrets and Keys (NEVER commit)
+# ========================
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+*.secret
+*.crt
+
+# ========================
+# Logs
+# ========================
+*.log
+logs/
+
+# ========================
+# Operating System
+# ========================
+.DS_Store
+Thumbs.db
+.AppleDouble
+.LSOverride
+
+# ========================
+# IDEs and Editors
+# ========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+
+# ========================
+# Frontend Build Artifacts
+# ========================
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.next/
+frontend/out/
+
+# ========================
+# Build & Distribution
+# ========================
+build/
+dist/
+*.whl
+*.tar.gz
+
+# ========================
+# Test Coverage
+# ========================
+.coverage
+htmlcov/
+.coverage.*
+
+# ========================
+# Jupyter Notebooks
+# ========================
+.ipynb_checkpoints/
+*.ipynb
+
+# ========================
+# macOS Specific
+# ========================
+.DS_Store
+.AppleDouble
+.LSOverride
+.TemporaryItems
+
+# ========================
+# Windows Specific
+# ========================
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ email.subject }}</title>
+  <meta charset="utf-8" />
+</head>
+<body>
+  <a href="{{ url_for('simulate.inbox') }}">← Back to Inbox</a>
+
+  <h2>{{ email.subject }}</h2>
+  <p><strong>From:</strong> {{ email.sender }}</p>
+
+  <hr>
+
+  <p>{{ email.body }}</p>
+
+
+  <div style="margin:14px 0;">
+    <a href="{{ url_for('simulate.click_email', email_id=email.id) }}">{{ email.link_text }}</a>
+    &nbsp;|&nbsp;
+    <a href="{{ url_for('simulate.report_email', email_id=email.id) }}">Report as phishing</a>
+  </div>
+
+  <hr>
+
+  <div style="border:1px solid #ccc; padding:12px;">
+    <h3 style="margin-top:0;">Email Inspection Tips</h3>
+    <ul>
+      <li>Does it ask for <strong>passwords, OTP codes, bank details</strong>, or personal info?</li>
+      <li>Is it using <strong>pressure/urgency</strong> (“within 24 hours”, “immediately”)?</li>
+      <li>Is the greeting generic (“Dear user”) instead of your name?</li>
+      <li>Are the details vague (no order number, no proper signature, no contact info)?</li>
+      <li>Does it try to trigger fear/reward (“account suspended”, “refund available”)?</li>
+      <li>In real life: <strong>hover over links</strong> to check the destination domain.</li>
+    </ul>
+  </div>
+</body>
+</html>
